@@ -16,7 +16,7 @@ app = Flask(__name__, static_url_path='/static')
 UPLOAD_FOLDER = 'static'
 ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
-ngrok = "https://4453-60-251-232-252.ngrok.io"
+ngrok = "https://eb42-111-249-3-147.ngrok.io"
 
 
 config = configparser.ConfigParser()

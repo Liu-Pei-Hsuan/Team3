@@ -46,7 +46,7 @@ df1 = df.groupby(["year","week", "new_age"], as_index=False).sum()
 df1.week = df1.week.astype(int)
 df1["new_age"] = df1["new_age"].astype(str)
 df1 = df1.sort_values(by = ["year","week"])
-df_2021 = df1[df1.year == "2021"].set_index("week").sort_index()
+df_2021 = df1[df1.year == 2021].set_index("week").sort_index()
 
 
 # =============================================================================
