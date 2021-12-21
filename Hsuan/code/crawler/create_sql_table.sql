@@ -3,10 +3,24 @@ use project;
 CREATE TABLE influenza
 (
 ID int NOT NULL AUTO_INCREMENT,
+type varchar(10),
 year int,
 age varchar(10),
+county varchar(10),
 week int,
-influenza int,
+cases int,
+PRIMARY KEY (ID)
+);
+
+CREATE TABLE enterovirus
+(
+ID int NOT NULL AUTO_INCREMENT,
+type varchar(10),
+year int,
+age varchar(10),
+county varchar(10),
+week int,
+cases int,
 PRIMARY KEY (ID)
 );
 

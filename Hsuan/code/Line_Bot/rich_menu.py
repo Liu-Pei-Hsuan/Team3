@@ -21,53 +21,50 @@ body = {
         "areas": [
             {
                 "bounds": {
-                    "x": 45,
-                    "y": 110,
-                    "width": 510,
-                    "height": 520
+                    "x": 55,
+                    "y": 130,
+                    "width": 580,
+                    "height": 580
                 },
-                "action": {
-                    "type": "postback",
-                    "text": "請回傳您的位置",
-                    "data": "action=getLocation"
+                "action":{
+                    "type": "message",
+                    "text":"@請回傳您的位置"
                 }
             },
             {
                 "bounds": {
-                    "x": 570,
-                    "y": 110,
-                    "width": 510,
-                    "height": 520
+                    "x": 650,
+                    "y": 130,
+                    "width": 580,
+                    "height": 580
                 },
                 "action": {
-                    "type": "uri",
-                    "uri" : "https://airtw.epa.gov.tw/" 
+                    "type": "message",
+                    "text":"@請回傳您的位置" 
                 }
             },
             {
                 "bounds": {
-                    "x": 1110,
+                    "x": 1260,
                     "y": 110,
-                    "width": 510,
-                    "height": 520
+                    "width": 580,
+                    "height": 580
                 },
                 "action": {
-                    "type": "uri",
-                    "label" : "空氣品質監測網",
-                    "uri" : "https://data.cdc.gov.tw/"
+                    "type": "message",
+                    "text":"@請點選您要看的疾病"
                 }
             },
             {
                 "bounds": {
-                    "x": 1645,
+                    "x": 1860,
                     "y": 110,
-                    "width": 510,
-                    "height": 520
+                    "width": 580,
+                    "height": 580
                 },
                 "action": {
-                    "type": "postback",
-                    "text": "小百科",
-                    "data": "action=getProducts"
+                    "type": "message",
+                    "text":"@請點選您要看的小百科"
                 }
             }
         ]
@@ -103,7 +100,7 @@ from linebot import LineBotApi
 
 line_bot_api = LineBotApi('UBpmysfAVIzw2uqQgj5NvMW314kcbhqxYKbVm430ZiTJnZEj4cdeZUapCUlAn9f49B2Qi+LMzd+hw4xVE9Nz2CKqo24Py4HwQb8jj5K4ob/SNx7seCr3NkpOGm/ILQYzzk2pf+ccv12JeUAr9s+gKAdB04t89/1O/w1cDnyilFU=')
 
-with open("D:/air.jpg", 'rb') as f:
+with open("D:/air.png", 'rb') as f:
     line_bot_api.set_rich_menu_image(richMenuId, "image/jpeg", f)
 
 

@@ -16,7 +16,7 @@ app = Flask(__name__, static_url_path='/static')
 UPLOAD_FOLDER = 'static'
 ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
-ngrok = "https://4453-60-251-232-252.ngrok.io"
+ngrok = "https://eb42-111-249-3-147.ngrok.io"
 
 
 config = configparser.ConfigParser()
@@ -32,6 +32,9 @@ HEADER = {
     'Content-type': 'application/json',    ### 告知我們的資料是以 json 形式
     'Authorization': F'Bearer {config.get("line-bot", "channel_access_token")}'  ### 驗證機制
 }
+
+productId = ["5ac1bfd5040ab15980c9b435", "5ac21e6c040ab15980c9b444"]
+emoji_ID = ["026", "130", "187", "181"]
 
 @app.route("/", methods=['POST'])
 def callback():
@@ -89,16 +92,20 @@ def handle_message(event):
                     original_content_url = "https://img.onl/xkKwb9",
                     preview_image_url = "https://img.onl/xkKwb9"
                 ),
-                TextSendMessage(
-                text='請選擇最您想了解的資訊',
-                quick_reply=QuickReply(
-                    items=[
-                        QuickReplyButton(
-                            action=MessageAction(label="認識指標", text="@認識空氣品質指標")
-                        ),
-                        QuickReplyButton(
-                            action=MessageAction(label="好物推薦", text="@今日好物推薦")
-                        ),
+                TemplateSendMessage(
+                    alt_text='按鈕樣板',
+                    template=ButtonsTemplate(
+                        title='請選擇您最想了解的資訊',
+                        text='請選擇：',
+                        actions=[
+                            MessageTemplateAction(
+                                label='認識指標',
+                                text='@認識空氣品質指標'
+                                ),
+                             MessageTemplateAction(
+                                label='好物推薦',
+                                text='@今日好物推薦'
+                                )
                     ]
                 )
             )
@@ -124,19 +131,15 @@ def handle_message(event):
         
     elif mtext == '@請點選您要看的疾病':
         try:
-            message = TextSendMessage(
-                text='請選擇最您關心的疾病',
-                quick_reply=QuickReply(
-                    items=[
-                        QuickReplyButton(
-                            action=MessageAction(label="COVID-19", text="COVID-19")
-                        ),
-                        QuickReplyButton(
-                            action=MessageAction(label="流感", text="流感")
-                        ),
-                        QuickReplyButton(
-                            action=MessageAction(label="腸病毒", text="腸病毒")
-                        ),
+            message =  TemplateSendMessage(
+                alt_text='請選擇您最關心的疾病',
+                template=ButtonsTemplate(
+                    title='請選擇您最關心的疾病',
+                    text='請選擇：',
+                    actions=[
+                        MessageTemplateAction(label="COVID-19", text="COVID-19"),
+                        MessageTemplateAction(label="流感", text="流感"),
+                        MessageTemplateAction(label="腸病毒", text="腸病毒")
                     ]
                 )
             )
@@ -149,21 +152,24 @@ def handle_message(event):
         try:
             message = [  #串列
                 TextSendMessage(  #傳送文字
-                    text = "下圖為 COVID-19 趨勢圖"
+                    text = "COVID-19 趨勢圖"
                 ),
                 ImageSendMessage(  #傳送圖片
                     original_content_url = "https://img.onl/lIcW63",
                     preview_image_url = "https://img.onl/lIcW63"
                 ),
                 TextSendMessage(
-                text='請選擇最您想了解的資訊',
+                text='請選擇您最想了解的資訊',
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
-                            action=MessageAction(label="認識疾病", text="@認識 COVID-19")
+                            action=MessageAction(label="認識 COVID-19", text="@認識 COVID-19")
                         ),
                         QuickReplyButton(
-                            action=MessageAction(label="好物推薦", text="@防疫商品推薦")
+                            action=MessageAction(label="防疫商品推薦", text="@防疫商品推薦")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="各縣市疫情狀況", text="@各縣市疫情")
                         ),
                     ]
                 )
@@ -172,26 +178,170 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,message)
         except:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+            
+    elif mtext == '@各縣市疫情': 
+        try:
+            message = [
+                TemplateSendMessage(
+                alt_text='請選擇您最想查詢的地點',
+                template=ButtonsTemplate(
+                    title='請選擇您最想查詢的地點',
+                    text='請選擇：',
+                    actions=[
+                        MessageTemplateAction(label="全台", text="@國內疫情"),
+                        MessageTemplateAction(label="桃園", text="@桃園疫情"),
+                        MessageTemplateAction(label="其他縣市", text="@其他縣市")
+                    ]
+                )
+            )
+            ]
+            line_bot_api.reply_message(event.reply_token,message)
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+    
+    elif mtext == '@國內疫情':
+        try:
+            message = TextSendMessage(  
+                text = "今日共新增 {} 例，其中本土共 {} 例，境外共 {} 例".format(0, 0, 0)
+            )
+            line_bot_api.reply_message(event.reply_token,message)
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+        
+    elif mtext == '@桃園疫情':
+        try:
+            message = TextSendMessage(  
+                text = "今日桃園市共 __ 例，其中桃園區共 __ 例，中壢區 __ 例 ....."
+            )
+            line_bot_api.reply_message(event.reply_token,message)
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+            
+            
+    elif mtext == "@其他縣市":
+        COVID_19_num(event)       
+        
+    elif mtext == '@北部地區':
+        lst = [0, 14, 28, 42, 56, 70, 84]
+        emojis_list = list()
+        for i in lst:
+            emojis_list.append(
+                {
+                  "index": i,
+                  "productId": productId[0],
+                  "emojiId": emoji_ID[1]
+                }
+            )
+        try:
+            message = [  #串列
+                TextSendMessage(
+                    text = "$ 台北市共新增 {} 例 \n$ 新北市共新增 {} 例 \n$ 基隆市共新增 {} 例 \n$ 桃園市共新增 {} 例 \n$ 新竹市共新增 {} 例 \n$ 新竹縣共新增 {} 例 \n$ 宜蘭縣共新增 {} 例".format(0, 0, 0, 0, 0, 0, 0), emojis = emojis_list
+                )
+                # TextSendMessage(
+                #     text = "台北市共新增 {} 例 \n新北市共新增 {} 例".format(0, 0)
+                # ),
+                # TextSendMessage(
+                #     text = "基隆市共新增 {} 例".format(0)
+                # ),
+                # TextSendMessage(
+                #     text = "桃園市共新增 {} 例".format(0)
+                # ),
+                # TextSendMessage(
+                #     text = "新竹市共新增 {} 例 \n新竹縣共新增 {} 例".format(0, 0)
+                # ),
+                # TextSendMessage(
+                #     text = "宜蘭縣共新增 {} 例".format(0)
+                # )
+            ]
+            line_bot_api.reply_message(event.reply_token,message)
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+            
+    elif mtext == '@中部地區':
+        lst = [0, 14, 28, 42, 56]
+        emojis_list = list()
+        for i in lst:
+            emojis_list.append(
+                {
+                  "index": i,
+                  "productId": productId[0],
+                  "emojiId": emoji_ID[0]
+                }
+            )
+        try:
+            message = [  #串列
+                TextSendMessage(
+                    text = "$ 苗栗縣共新增 {} 例 \n$ 台中市共新增 {} 例 \n$ 彰化縣共新增 {} 例 \n$ 南投縣共新增 {} 例 \n$ 雲林縣共新增 {} 例".format(0, 0, 0, 0, 0), emojis = emojis_list
+                )
+            ]
+            line_bot_api.reply_message(event.reply_token,message)
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+
+            
+    elif mtext == '@南部地區':
+        lst = [0, 14, 28, 42, 56, 70]
+        emojis_list = list()
+        for i in lst:
+            emojis_list.append(
+                {
+                  "index": i,
+                  "productId": productId[0],
+                  "emojiId": emoji_ID[2]
+                }
+            )
+        try:
+            message = [  #串列
+                TextSendMessage(
+                    text = "$ 嘉義縣共新增 {} 例 \n$ 嘉義市共新增 {} 例 \n$ 台南市共新增 {} 例 \n$ 高雄市共新增 {} 例 \n$ 屏東縣共新增 {} 例 \n$ 澎湖縣共新增 {} 例".format(0, 0, 0, 0, 0, 0), emojis = emojis_list
+                )
+            ]
+            line_bot_api.reply_message(event.reply_token,message)
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+            
+    elif mtext == '@東部地區':
+        lst = [0, 14]
+        emojis_list = list()
+        for i in lst:
+            emojis_list.append(
+                {
+                  "index": i,
+                  "productId": productId[1],
+                  "emojiId": emoji_ID[3]
+                }
+            )
+        try:
+            message = [  #串列
+                TextSendMessage(
+                    text = "$ 花蓮縣共新增 {} 例 \n$ 台東縣共新增 {} 例".format(0, 0), emojis = emojis_list
+                )
+            ]
+            line_bot_api.reply_message(event.reply_token,message)
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+            
+   
             
     elif mtext == '流感': 
         try:
             message = [  #串列
                 TextSendMessage(  #傳送文字
-                    text = "下圖為流感之趨勢圖"
+                    text = "流行性感冒趨勢圖"
                 ),
                 ImageSendMessage(  #傳送圖片
                     original_content_url = "https://img.onl/lIcW63",
                     preview_image_url = "https://img.onl/lIcW63"
                 ),
                 TextSendMessage(
-                text='請選擇最您想了解的資訊',
+                text='請選擇您最想了解的資訊',
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
-                            action=MessageAction(label="認識疾病", text="@什麼是流感")
+                            action=MessageAction(label="什麼是流感", text="@什麼是流感")
                         ),
                         QuickReplyButton(
-                            action=MessageAction(label="好物推薦", text="@流感商品推薦")
+                            action=MessageAction(label="流感商品推薦", text="@流感商品推薦")
                         ),
                     ]
                 )
@@ -201,25 +351,26 @@ def handle_message(event):
         except:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
             
+            
     elif mtext == '腸病毒': 
         try:
             message = [  #串列
                 TextSendMessage(  #傳送文字
-                    text = "下圖為腸病毒之趨勢圖"
+                    text = "腸病毒趨勢圖"
                 ),
                 ImageSendMessage(  #傳送圖片
                     original_content_url = "https://img.onl/lIcW63",
                     preview_image_url = "https://img.onl/lIcW63"
                 ),
                 TextSendMessage(
-                text='請選擇最您想了解的資訊',
+                text='請選擇您最想了解的資訊',
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
-                            action=MessageAction(label="認識疾病", text="@什麼是腸病毒")
+                            action=MessageAction(label="什麼是腸病毒", text="@什麼是腸病毒")
                         ),
                         QuickReplyButton(
-                            action=MessageAction(label="好物推薦", text="@腸病毒商品推薦")
+                            action=MessageAction(label="腸病毒商品推薦", text="@腸病毒商品推薦")
                         ),
                     ]
                 )
@@ -301,6 +452,40 @@ def COVID_19_Products(event):  #按鈕樣版
                     URITemplateAction(
                         label='推薦 4',
                         uri='http://www.e-happy.com.tw'
+                    ),
+                ]
+            )
+        )
+        line_bot_api.reply_message(event.reply_token, message)
+    except:
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+        
+### 各縣市 COVID-19 確診人數
+def COVID_19_num(event):  #按鈕樣版
+    try:
+        message = TemplateSendMessage(
+            alt_text='各縣市疫情現況',
+            ## 最多 4 個按鈕
+            template=ButtonsTemplate(
+                thumbnail_image_url='https://img.onl/jfFt7a',  #顯示的圖片
+                title='各縣市疫情現況',  #主標題
+                text='請選擇：',  #副標題
+                actions=[
+                    MessageTemplateAction(  #顯示文字計息
+                        label='北部地區',
+                        text='@北部地區'
+                    ),
+                    MessageTemplateAction(  #顯示文字計息
+                        label='中部地區',
+                        text='@中部地區'
+                    ),
+                    MessageTemplateAction(  #顯示文字計息
+                        label='南部地區',
+                        text='@南部地區'
+                    ),
+                    MessageTemplateAction(  #顯示文字計息
+                        label='東部地區',
+                        text='@東部地區'
                     ),
                 ]
             )
@@ -491,6 +676,30 @@ def Encyclopedia(event):  #按鈕樣版
         line_bot_api.reply_message(event.reply_token, message)
     except:
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+        
+def handle_emjoi(event):
+    emoji = [
+        {
+            "index": 0,
+            "productId": "5ac222bf031a6752fb806d64",
+            "emojiId": "050"
+        },
+        {
+            "index": 1,
+            "productId": "5ac21a8c040ab15980c9b43f",
+            "emojiId": "001"
+        },
+        {
+            "index": 2,
+            "productId": "5ac21a8c040ab15980c9b43f",
+            "emojiId": "025"
+        },
+    ]         
+    message=TextSendMessage(text='$$$ 09 回覆emoji訊息', emojis=emoji)
+
+    print(event)
+    line_bot_api.reply_message(event.reply_token, message)
+    
 
 
 if __name__ == "__main__":
