@@ -11,8 +11,6 @@ import configparser
 import os
 from urllib import parse
 from urllib.parse import parse_qsl
-import numpy as np
-from locData import *
 
 app = Flask(__name__, static_url_path='/static')
 UPLOAD_FOLDER = 'static'
@@ -1089,10 +1087,7 @@ def handle_emjoi(event):
     print(event)
     line_bot_api.reply_message(event.reply_token, message)
 
-def replyMessage(payload):
-    response = requests.post('https://api.line.me/v2/bot/message/reply',headers=HEADER,data=json.dumps(payload))
-    print(response.text)
-    return 'OK'
+    
 
 
 if __name__ == "__main__":
