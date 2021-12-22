@@ -725,6 +725,159 @@ def handle_message(event):
     elif mtext == "@腸病毒商品推薦":
         Enterovirus_Products(event)
         
+    elif mtext == "@酒精類":
+        try:
+            message = TextSendMessage(
+                text='請選擇您要查看的商品類別',
+                quick_reply=QuickReply(
+                    items=[
+                        QuickReplyButton(
+                            action=MessageAction(label="酒精", text="@酒精")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="酒精濕紙巾", text="@酒精濕紙巾")
+                        ),
+                    ]
+                )
+            )
+            line_bot_api.reply_message(event.reply_token,message)
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+            
+    elif mtext == '@酒精': 
+        alcohol = product()[7]
+        try:
+            message = [
+                TemplateSendMessage(
+                alt_text='酒精推薦商品',
+                template=ButtonsTemplate(
+                    title='酒精推薦商品',
+                    text='請選擇：',
+                    actions=[
+                              URITemplateAction(label = alcohol["product_name"][0], uri = alcohol.url[0]),
+                              URITemplateAction(label = alcohol["product_name"][1], uri = alcohol.url[1]),
+                              URITemplateAction(label = alcohol["product_name"][2], uri = alcohol.url[2]),
+                              URITemplateAction(label = alcohol["product_name"][3], uri = alcohol.url[3])
+                             ]
+                )
+            )
+            ]
+            line_bot_api.reply_message(event.reply_token,message)
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+            
+    elif mtext == '@酒精濕紙巾': 
+        alcohol_wipes = product()[8]
+        try:
+            message = [
+                TemplateSendMessage(
+                alt_text='酒精濕紙巾推薦商品',
+                template=ButtonsTemplate(
+                    title='酒精濕紙巾推薦商品',
+                    text='請選擇：',
+                    actions=[
+                              URITemplateAction(label = alcohol_wipes["product_name"][0], uri = alcohol_wipes.url[0]),
+                              URITemplateAction(label = alcohol_wipes["product_name"][1], uri = alcohol_wipes.url[1]),
+                              URITemplateAction(label = alcohol_wipes["product_name"][2], uri = alcohol_wipes.url[2]),
+                              URITemplateAction(label = alcohol_wipes["product_name"][3], uri = alcohol_wipes.url[3])
+                             ]
+                )
+            )
+            ]
+            line_bot_api.reply_message(event.reply_token,message)
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+            
+    elif mtext == '@乾洗手': 
+        Dry_hands = product()[9]
+        try:
+            message = [
+                TemplateSendMessage(
+                alt_text='乾洗手推薦商品',
+                template=ButtonsTemplate(
+                    title='乾洗手推薦商品',
+                    text='請選擇：',
+                    actions=[
+                              URITemplateAction(label = Dry_hands["product_name"][4], uri = Dry_hands.url[4]),
+                              URITemplateAction(label = Dry_hands["product_name"][1], uri = Dry_hands.url[1]),
+                              URITemplateAction(label = Dry_hands["product_name"][2], uri = Dry_hands.url[2]),
+                              URITemplateAction(label = Dry_hands["product_name"][3], uri = Dry_hands.url[3])
+                             ]
+                )
+            )
+            ]
+            line_bot_api.reply_message(event.reply_token,message)
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+            
+            
+    elif mtext == '@不織布口罩': 
+        mask_il = product()[10]
+        try:
+            message = [
+                TemplateSendMessage(
+                alt_text='不織布口罩推薦商品',
+                template=ButtonsTemplate(
+                    title='不織布口罩推薦商品',
+                    text='請選擇：',
+                    actions=[
+                              URITemplateAction(label = mask_il["product_name"][0], uri = mask_il.url[0]),
+                              URITemplateAction(label = mask_il["product_name"][1], uri = mask_il.url[1]),
+                              URITemplateAction(label = mask_il["product_name"][2], uri = mask_il.url[2]),
+                              URITemplateAction(label = mask_il["product_name"][3], uri = mask_il.url[3])
+                             ]
+                )
+            )
+            ]
+            line_bot_api.reply_message(event.reply_token,message)
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+            
+    elif mtext == '@漂白水': 
+        bleach = product()[11]
+        try:
+            message = [
+                TemplateSendMessage(
+                alt_text='漂白水推薦商品',
+                template=ButtonsTemplate(
+                    title='漂白水推薦商品',
+                    text='請選擇：',
+                    actions=[
+                              URITemplateAction(label = bleach["product_name"][0], uri = bleach.url[0]),
+                              URITemplateAction(label = bleach["product_name"][1], uri = bleach.url[1]),
+                              URITemplateAction(label = bleach["product_name"][2], uri = bleach.url[2]),
+                              URITemplateAction(label = bleach["product_name"][3], uri = bleach.url[3])
+                             ]
+                )
+            )
+            ]
+            line_bot_api.reply_message(event.reply_token,message)
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+            
+            
+    elif mtext == '@肥皂': 
+        soap = product()[12]
+        try:
+            message = [
+                TemplateSendMessage(
+                alt_text='肥皂推薦商品',
+                template=ButtonsTemplate(
+                    title='肥皂推薦商品',
+                    text='請選擇：',
+                    actions=[
+                              URITemplateAction(label = "排名 1", uri = soap.url[0]), ### 待改
+                               URITemplateAction(label = "排名 2", uri = soap.url[1]), ### 待改
+                               URITemplateAction(label = "排名 3", uri = soap.url[2]), ### 待改
+                               URITemplateAction(label = "排名 4", uri = soap.url[3]) ### 待改
+                             ]
+                )
+            )
+            ]
+            line_bot_api.reply_message(event.reply_token,message)
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+        
 
 # =============================================================================
 ### 4. 小百科
@@ -733,41 +886,9 @@ def handle_message(event):
         Encyclopedia(event)
 
     
-            
-### COVID-19 商品推薦
-def COVID_19_Products(event):  #按鈕樣版
-    try:
-        message = TemplateSendMessage(
-            alt_text='按鈕樣板',
-            ## 最多 4 個按鈕
-            template=ButtonsTemplate(
-                thumbnail_image_url='https://img.onl/jfFt7a',  #顯示的圖片
-                title='防疫商品推薦',  #主標題
-                text='請選擇：',  #副標題
-                actions=[
-                    URITemplateAction(  #開啟網頁
-                        label='【快潔適★買1送1】 99 元', #字數上限 20 字
-                        uri='http://www.e-happy.com.tw'
-                    ),
-                    URITemplateAction(
-                        label='推薦 2',
-                        uri='http://www.e-happy.com.tw'
-                    ),
-                    URITemplateAction(
-                        label='推薦 3',
-                        uri='http://www.e-happy.com.tw'
-                    ),
-                    URITemplateAction(
-                        label='推薦 4',
-                        uri='http://www.e-happy.com.tw'
-                    ),
-                ]
-            )
-        )
-        line_bot_api.reply_message(event.reply_token, message)
-    except:
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
-        
+# =============================================================================
+# function        
+# =============================================================================
 ### 各縣市 COVID-19 確診人數
 def COVID_19_num(event):  #按鈕樣版
     try:
@@ -802,6 +923,41 @@ def COVID_19_num(event):  #按鈕樣版
     except:
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
         
+        
+### COVID-19 商品推薦
+def COVID_19_Products(event):  #按鈕樣版
+    try:
+        message = TemplateSendMessage(
+            alt_text='按鈕樣板',
+            ## 最多 4 個按鈕
+            template=ButtonsTemplate(
+                thumbnail_image_url='https://img.onl/jfFt7a',  #顯示的圖片
+                title='防疫商品推薦',  #主標題
+                text='請選擇：',  #副標題
+                actions=[
+                    MessageTemplateAction(  #顯示文字計息
+                        label='酒精類',
+                        text='@酒精類'
+                    ),
+                    MessageTemplateAction(  #顯示文字計息
+                        label='乾洗手',
+                        text='@乾洗手'
+                    ),
+                    MessageTemplateAction(  #顯示文字計息
+                        label='不織布口罩',
+                        text='@不織布口罩'
+                    ),
+                    MessageTemplateAction(  #顯示文字計息
+                        label='安全護目鏡',
+                        text='@安全護目鏡'
+                    ),
+                ]
+            )
+        )
+        line_bot_api.reply_message(event.reply_token, message)
+    except:
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+        
 ### 流感商品推薦
 def influenza_Products(event):
     try:
@@ -812,21 +968,21 @@ def influenza_Products(event):
                 title='流感商品推薦',
                 text='請選擇：',
                 actions=[
-                    URITemplateAction(
-                        label='推薦 1',
-                        uri='http://www.e-happy.com.tw'
+                    MessageTemplateAction(  #顯示文字計息
+                        label='漂白水',
+                        text='@漂白水'
                     ),
-                    URITemplateAction(
-                        label='推薦 2',
-                        uri='http://www.e-happy.com.tw'
+                    MessageTemplateAction(  #顯示文字計息
+                        label='乾洗手',
+                        text='@乾洗手'
                     ),
-                    URITemplateAction(
-                        label='推薦 3',
-                        uri='http://www.e-happy.com.tw'
+                    MessageTemplateAction(  #顯示文字計息
+                        label='不織布口罩',
+                        text='@不織布口罩'
                     ),
-                    URITemplateAction(
-                        label='推薦 4',
-                        uri='http://www.e-happy.com.tw'
+                    MessageTemplateAction(  #顯示文字計息
+                        label='肥皂',
+                        text='@肥皂'
                     ),
                 ]
             )
@@ -846,21 +1002,21 @@ def Enterovirus_Products(event):
                 title='腸病毒商品推薦',
                 text='請選擇：',
                 actions=[
-                    URITemplateAction(
-                        label='推薦 1',
-                        uri='http://www.e-happy.com.tw'
+                    MessageTemplateAction(  #顯示文字計息
+                        label='漂白水',
+                        text='@漂白水'
                     ),
-                    URITemplateAction(
-                        label='推薦 2',
-                        uri='http://www.e-happy.com.tw'
+                    MessageTemplateAction(  #顯示文字計息
+                        label='酒精',
+                        text='@酒精'
                     ),
-                    URITemplateAction(
-                        label='推薦 3',
-                        uri='http://www.e-happy.com.tw'
+                    MessageTemplateAction(  #顯示文字計息
+                        label='不織布口罩',
+                        text='@不織布口罩'
                     ),
-                    URITemplateAction(
-                        label='推薦 4',
-                        uri='http://www.e-happy.com.tw'
+                    MessageTemplateAction(  #顯示文字計息
+                        label='肥皂',
+                        text='@肥皂'
                     ),
                 ]
             )
@@ -1037,8 +1193,26 @@ def product():
 
     ### 7. PM2.5 空氣清淨機
     PM25_clean = df[df["class"] == "PM2.5 空氣清淨機"].reset_index(drop = True)
+    
+    ### 8. 酒精
+    alcohol = df[df["class"] == "酒精"].reset_index(drop = True)
+    
+    ### 9. 酒精濕紙巾
+    alcohol_wipes = df[df["class"] == "酒精濕紙巾"].reset_index(drop = True)
+    
+    ### 10. 乾洗手
+    Dry_hands = df[df["class"] == "乾洗手"].reset_index(drop = True)
+    
+    ### 11. 不織布口罩
+    mask_il = df[df["class"] == "不織布口罩"].reset_index(drop = True)
+    
+    ### 12. 漂白水
+    bleach = df[df["class"] == "漂白水"].reset_index(drop = True)
+    
+    ### 13. 肥皂
+    soap = df[df["class"] == "肥皂"].reset_index(drop = True)
 
-    return glass, mask, Air_clear, Gas_mask, CO_Detector, Gas_alarm, PM25_clean
+    return glass, mask, Air_clear, Gas_mask, CO_Detector, Gas_alarm, PM25_clean, alcohol, alcohol_wipes, Dry_hands, mask_il, bleach, soap
         
    
 ### 小百科 ButtonsTemplate
@@ -1098,3 +1272,5 @@ def replyMessage(payload):
 if __name__ == "__main__":
     app.debug = True
     app.run()
+    
+    

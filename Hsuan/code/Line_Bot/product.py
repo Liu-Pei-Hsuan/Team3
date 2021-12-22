@@ -79,3 +79,21 @@ Gas_alarm = df[df["class"] == "瓦斯警報器"].reset_index(drop = True)
 
 ### 7. PM2.5 空氣清淨機
 PM25_clean = df[df["class"] == "PM2.5 空氣清淨機"].reset_index(drop = True)
+
+### 8. 酒精
+alcohol = df[df["class"] == "酒精"].reset_index(drop = True)
+
+### 9. 酒精濕紙巾
+alcohol_wipes = df[df["class"] == "酒精濕紙巾"].reset_index(drop = True)
+
+### 10. 乾洗手
+Dry_hands = df[df["class"] == "乾洗手"].reset_index(drop = True)
+
+### 11. 不織布口罩
+mask_il = df[df["class"] == "不織布口罩"].reset_index(drop = True)
+
+### 12. 漂白水
+bleach = df[df["class"] == "漂白水"].reset_index(drop = True)
+
+### 13. 肥皂
+soap = df[df["class"] == "肥皂"].reset_index(drop = True)

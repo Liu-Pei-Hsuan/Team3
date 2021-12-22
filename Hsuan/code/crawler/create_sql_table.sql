@@ -56,3 +56,20 @@ Temp decimal(5,2),
 Humidity decimal(5,2),
 PRIMARY KEY (ID)
 );
+
+CREATE TABLE COVID19
+(
+ID int NOT NULL AUTO_INCREMENT,
+date date,
+city varchar(10),
+number int,
+PRIMARY KEY (ID)
+);
+
+CREATE TABLE COVID19_foreign
+(
+ID int NOT NULL AUTO_INCREMENT,
+date date,
+number int,
+PRIMARY KEY (ID)
+);
