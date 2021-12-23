@@ -4,7 +4,7 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage,TextSendMessage, ImageSendMessage, StickerSendMessage, LocationSendMessage, QuickReply, QuickReplyButton, MessageAction, LocationAction
 from linebot.models import PostbackEvent, TemplateSendMessage, ConfirmTemplate, MessageTemplateAction, ButtonsTemplate, PostbackTemplateAction, URITemplateAction, CarouselTemplate, CarouselColumn, ImageCarouselTemplate, ImageCarouselColumn
-
+import time
 import requests
 import json
 import configparser
@@ -58,6 +58,7 @@ def handle_message(event):
         mtext=""
     else:
         mtext = event.message.text
+
     if mtext == '@請回傳您的位置':
         try:
             message = TextSendMessage(
@@ -69,15 +70,19 @@ def handle_message(event):
                 )
             )
             line_bot_api.reply_message(event.reply_token,message)
-
-
         except:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
 
-# =============================================================================
-#     mtext 的部分要放位置回傳的資料
-# =============================================================================
-    elif  event.message.type == "location":
+    elif mtext == '@吃什麼':
+        try:
+            message = TextSendMessage(
+                text = food()
+            )
+            line_bot_api.reply_message(event.reply_token,message)
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+
+    elif event.message.type == "location":
         try:
             Find_loc = np.matrix([[event.message.latitude, event.message.longitude]])
             # 距測站距離(全部)
@@ -100,7 +105,6 @@ def handle_message(event):
     ### 1. 氣象
     elif mtext == '@氣象':
         try:
-            print(dis)
             message = TextSendMessage(
                 text = "https://5zrbk.csb.app/"
             )
@@ -1304,6 +1308,12 @@ def replyMessage(payload):
     response = requests.post('https://api.line.me/v2/bot/message/reply',headers=HEADER,data=json.dumps(payload))
     print(response.text)
     return 'OK'
+
+def food():
+    import random
+    food = ["麥當勞","大四喜","素食","迷豆子","711關東煮","雙贏涼麵","早到晚到","排骨酥麵","八方雲集","孫東寶"]
+    good = random.choice(food)
+    return (f'今天從' +str(len(food)) + '家精選店裡面選擇了' + good + '慢慢享用' )
 
 def covid19title():
     import requests
