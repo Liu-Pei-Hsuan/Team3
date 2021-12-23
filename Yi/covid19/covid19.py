@@ -32,4 +32,7 @@ def covid19City():
         if twCount != 0:
             return f'公告日期：{date} 本土案例：{twCount}例，位於{set(tw)}；境外移入{others}例，總計：{twCount+others}例。'
         else:
-            return f'公告日期：{date} 今日{twCount}本土案例，境外移入{others}例，總計：{twCount + others}例。'
+            return f'公告日期：{date} 今日沒有本土案例，境外移入{others}例，總計：{twCount + others}例。'
+
+
+print(covid19title())

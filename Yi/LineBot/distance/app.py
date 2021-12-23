@@ -19,7 +19,7 @@ import numpy as np
 app = Flask(__name__, static_url_path='/static')
 UPLOAD_FOLDER = 'static'
 ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg', 'gif'])
-ngrokUrl = 'https://14cf-111-249-58-35.ngrok.io'
+ngrokUrl = 'https://0352-111-249-3-147.ngrok.io/'
 
 
 config = configparser.ConfigParser()
@@ -171,32 +171,32 @@ def index():
                         ],
                     replyMessage(payload)
 
-    #         if (events[0]["message"]["type"] == "location"):
-    #             # 下為使用者回饋經緯度
-    #             Find_loc = np.matrix([[events[0]["message"]["latitude"], events[0]["message"]["longitude"]]])
-    #             # 距測站距離(全部)
-    #             disALL = np_getDistance(loltALL_center,Find_loc)
-    #             # 距離測站最短距離(全部)
-    #             disMinName = nameALL[int(disALL.argmin(axis=0))]
-    #             disMinDistance = floor(disALL[int(disALL.argmin(axis=0))])
-    #             textplus = ("離%s最近，距離 %1.1f 公里" %(disMinName,disMinDistance))
-    #
-    #             payload["messages"] = [
-    #                 {
-    #                     "type": "text",
-    #                     "text": textplus
-    #                 },
-    #                 # {   ##下方是回傳經緯度給用戶，不需要先關
-    #                 #     "type": "text",
-    #                 #     "text": events[0]["message"]["latitude"]
-    #                 # },
-    #                 # {
-    #                 #     "type": "text",
-    #                 #     "text": events[0]["message"]["longitude"]
-    #                 # }
-    #             ]
-    #             replyMessage(payload)
-    # return 'OK'
+            if (events[0]["message"]["type"] == "location"):
+                # 下為使用者回饋經緯度
+                Find_loc = np.matrix([[events[0]["message"]["latitude"], events[0]["message"]["longitude"]]])
+                # 距測站距離(全部)
+                disALL = np_getDistance(loltALL_center,Find_loc)
+                # 距離測站最短距離(全部)
+                disMinName = nameALL[int(disALL.argmin(axis=0))]
+                disMinDistance = floor(disALL[int(disALL.argmin(axis=0))])
+                textplus = ("離%s最近，距離 %1.1f 公里" %(disMinName,disMinDistance))
+
+                payload["messages"] = [
+                    {
+                        "type": "text",
+                        "text": textplus
+                    },
+                    # {   ##下方是回傳經緯度給用戶，不需要先關
+                    #     "type": "text",
+                    #     "text": events[0]["message"]["latitude"]
+                    # },
+                    # {
+                    #     "type": "text",
+                    #     "text": events[0]["message"]["longitude"]
+                    # }
+                ]
+                replyMessage(payload)
+    return 'OK'
 
 ##            if events[0]["message"]["type"] == "location":
 ##                addr = events[0]["message"]["address"]
