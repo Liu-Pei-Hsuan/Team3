@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 from flask import Flask, request, abort, render_template
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage,TextSendMessage, ImageSendMessage, StickerSendMessage, LocationSendMessage, QuickReply, QuickReplyButton, MessageAction, LocationAction
+from linebot.models import MessageEvent, TextMessage,TextSendMessage, ImageSendMessage, StickerSendMessage, LocationSendMessage, QuickReply, QuickReplyButton, MessageAction, LocationAction, FlexSendMessage
 from linebot.models import PostbackEvent, TemplateSendMessage, ConfirmTemplate, MessageTemplateAction, ButtonsTemplate, PostbackTemplateAction, URITemplateAction, CarouselTemplate, CarouselColumn, ImageCarouselTemplate, ImageCarouselColumn
 
 import requests
@@ -12,13 +12,14 @@ import os
 from urllib import parse
 from urllib.parse import parse_qsl
 import numpy as np
+import math
 from locData import *
 
 app = Flask(__name__, static_url_path='/static')
 UPLOAD_FOLDER = 'static'
 ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
-ngrok = "https://4a65-36-228-193-220.ngrok.io/"
+ngrok = "https://2409-111-249-1-191.ngrok.io/"
 
 
 config = configparser.ConfigParser()
@@ -37,7 +38,7 @@ HEADER = {
 
 productId_region = ["5ac1bfd5040ab15980c9b435", "5ac21e6c040ab15980c9b444"]
 emoji_ID_region = ["026", "130", "187", "181"]
-
+dis = []
 # =============================================================================
 @app.route("/", methods=['POST'])
 def callback():
@@ -50,9 +51,12 @@ def callback():
         abort(400)
     return 'OK'
 
-@handler.add(MessageEvent, message=TextMessage)
+@handler.add(MessageEvent)
 def handle_message(event):
-    mtext = event.message.text
+    if event.message.type != "text":
+        mtext=""
+    else:
+        mtext = event.message.text
     if mtext == '@請回傳您的位置':
         try:
             message = TextSendMessage(
@@ -64,27 +68,102 @@ def handle_message(event):
                 )
             )
             line_bot_api.reply_message(event.reply_token,message)
+
+
         except:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
-
-# =============================================================================
-#     mtext 的部分要放位置回傳的資料         
-# =============================================================================
 ### 1. 氣象
-    elif mtext == '@氣象':
+            
+    elif mtext == '@各區天氣預報':
         try:
-            message = TextSendMessage(  
-                text = "https://5zrbk.csb.app/"
-            )
-            line_bot_api.reply_message(event.reply_token,message)
+            # message = json.load(open('C:/Users/user/OneDrive/桌面/Air/code/Line_Bot/weather.txt','r',encoding='utf-8'))
+            message = weather_json
+            line_bot_api.reply_message(event.reply_token, FlexSendMessage('@各區天氣預報',message))
+
+
         except:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
-
-    
+       
+        
 # =============================================================================
 #     mtext 的部分要放位置回傳的資料         
 # =============================================================================
 ### 2. 空氣品質
+
+    elif  event.message.type == "location":
+        try:
+            Find_loc = np.matrix([[event.message.latitude, event.message.longitude]])
+            # 距測站距離(全部)
+            disALL = np_getDistance(loltALL_center, Find_loc)
+            # 距離測站最短距離(全部)
+            disMinName = nameALL[int(disALL.argmin(axis=0))]
+            disMinDistance = math.floor(disALL[int(disALL.argmin(axis=0))])
+            
+            if disMinName == "中原大學站":
+                message = [
+                    TextSendMessage(text = "距離%s最近，距離 %1.1f 公里" % (disMinName, disMinDistance)),
+                    TextSendMessage(text="中原大學站氣象網址")
+                ]            
+            
+            elif disMinName == "TibaMe站":
+                message = [
+                    FlexSendMessage('@各區天氣預報', station(disMinName, disMinDistance)),
+                    FlexSendMessage('@各區天氣預報', Air_json)
+                ]
+            elif disMinName == "陽明高中站":
+                message = [
+                    FlexSendMessage('@各區天氣預報', station(disMinName, disMinDistance)),
+                    FlexSendMessage('@各區天氣預報', Air_json)
+                ]
+            elif disMinName == "武陵高中站":
+                message = [
+                    FlexSendMessage('@各區天氣預報', station(disMinName, disMinDistance)),
+                    FlexSendMessage('@各區天氣預報', Air_json)
+                ]
+            elif disMinName == "大竹站":
+                message = [
+                    FlexSendMessage('@各區天氣預報', station(disMinName, disMinDistance)),
+                    FlexSendMessage('@各區天氣預報', Air_json)
+                ]
+            elif disMinName == "桃園站":
+                message = [
+                    FlexSendMessage('@各區天氣預報', station(disMinName, disMinDistance)),
+                    FlexSendMessage('@各區天氣預報', Air_json)
+                ]
+            elif disMinName == "大園站":
+                message = [
+                    FlexSendMessage('@各區天氣預報', station(disMinName, disMinDistance)),
+                    FlexSendMessage('@各區天氣預報', Air_json)
+                ]
+            elif disMinName == "觀音站":
+                message = [
+                    FlexSendMessage('@各區天氣預報', station(disMinName, disMinDistance)),
+                    FlexSendMessage('@各區天氣預報', Air_json)
+                ]
+            elif disMinName == "平鎮站":
+                message = [
+                    FlexSendMessage('@各區天氣預報', station(disMinName, disMinDistance)),
+                    FlexSendMessage('@各區天氣預報', Air_json)
+                ]
+            elif disMinName == "龍潭站":
+                message = [
+                    FlexSendMessage('@各區天氣預報', station(disMinName, disMinDistance)),
+                    FlexSendMessage('@各區天氣預報', Air_json)
+                ]
+            elif disMinName == "中壢站":
+                message = [
+                    FlexSendMessage('@各區天氣預報', station(disMinName, disMinDistance)),
+                    FlexSendMessage('@各區天氣預報', Air_json)
+                ]
+            else:
+                message = [
+                    TextSendMessage(text = "發生錯誤")
+                ]
+            line_bot_api.reply_message(event.reply_token, message)
+            dis.append(disMinName) #把函式內的disName存在列表裡，方便外面呼叫
+        except:
+            pass
+        
     elif mtext == '@空氣': 
         try:
             message = [  #串列
@@ -117,56 +196,65 @@ def handle_message(event):
         except:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
             
-    elif mtext == '@認識空氣品質指標':
-        emojis_pm25 = [
-        {"index": 0, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "016"},
-        {"index": 1, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "013"},
-        {"index": 2, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "054"},
-        {"index": 3, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "094"},
-        {"index": 4, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "057"}
-        ]
+    # elif mtext == '@認識空氣品質指標':
+    #     emojis_pm25 = [
+    #     {"index": 0, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "016"},
+    #     {"index": 1, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "013"},
+    #     {"index": 2, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "054"},
+    #     {"index": 3, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "094"},
+    #     {"index": 4, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "057"}
+    #     ]
 
-        emojis_CO = [
-        {"index": 0, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "003"},
-        {"index": 1, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "015"},
-        ] 
+    #     emojis_CO = [
+    #     {"index": 0, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "003"},
+    #     {"index": 1, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "015"},
+    #     ] 
         
-        emojis_SO2 = [
-        {"index": 0, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "019"},
-        {"index": 1, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "015"},
-        {"index": 2, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "054"}
-        ]
+    #     emojis_SO2 = [
+    #     {"index": 0, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "019"},
+    #     {"index": 1, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "015"},
+    #     {"index": 2, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "054"}
+    #     ]
         
-        emojis_O3 = [
-        {"index": 0, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "015"},
-        {"index": 1, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "055"}
-        ]
+    #     emojis_O3 = [
+    #     {"index": 0, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "015"},
+    #     {"index": 1, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "055"}
+    #     ]
         
-        emojis_NO2 = [
-        {"index": 0, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "014"},
-        {"index": 1, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "015"},
-        {"index": 2, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "054"}
-        ]
+    #     emojis_NO2 = [
+    #     {"index": 0, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "014"},
+    #     {"index": 1, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "015"},
+    #     {"index": 2, "productId": "5ac21a8c040ab15980c9b43f", "emojiId": "054"}
+    #     ]
          
+    #     try:
+    #         message = [
+    #             TextSendMessage(
+    #                 text = "$$$$$\n\n國家 PM2.5 室內標準值為 35μm (微米)，在此狀況下空氣都是乾淨無害，但高於 35μm 時，敏感族群可能會感覺到不適，超過 50μm 時，則會對所有人群健康造成不良的影響。此外，煮菜的油煙、焚香跟抽菸都會產生懸浮微粒，導致 pm2.5 升高唷！", emojis = emojis_pm25
+    #         ),
+    #             TextSendMessage(
+    #                 text = "$$\n\n一氧化碳雖然是無色、無臭、無味氣體，但吸入對人體有十分大的傷害，與血液結合會生成碳氧血紅蛋白，導致不能提供氧氣給身體各部位。如果出現頭痛、頭暈、噁心想吐、四肢無力等症狀，應立即採取開啟對外窗戶，使室內外空氣流通，並盡速就醫。", emojis = emojis_CO
+    #         ),
+    #              TextSendMessage(
+    #                 text = "$$$\n\n二氧化硫數值高於 5ppm 時，我們會明顯感覺到一股刺鼻的味道，當數值達到 20ppm 時會對我們的眼睛、呼吸道造成刺激性的影響，此時要盡可能避免外出，如果必須出門則需針對眼、口、鼻進行必要的防範措施，千萬不能輕忽，否則造成更嚴重的身體傷害。", emojis = emojis_SO2
+    #         ),
+    #               TextSendMessage(
+    #                 text = "$$\n\n臭氧值大部分都會低於 120ppb，當數值接近或超過 300ppb 時，對人體就會有不良的影響，例如眼睛刺痛、肺功能降低等等。日常生活中，午後時光要特別留心臭氧的危害，通常臭氧濃度最高的時候會出現在下午 2 ～ 4 點左右，即一天之中陽光最強、溫度最高的時段，此時應避免出門，特別是秋天。", emojis = emojis_O3
+    #         ),
+    #                TextSendMessage(
+    #                 text = "$$$\n\n二氧化氮值在 100 以下都屬於正常，但高於 100 時則容易對過敏族群造成影響，而高於 150 時會對所有人群的健康造成傷害；另外，二氧化氮會造成使支氣管疾病更加嚴重，出門時觀察一下這個指標吧！", emojis = emojis_NO2
+    #         )
+    #         ]
+    #         line_bot_api.reply_message(event.reply_token,message)
+    #     except:
+    #         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+    
+    elif mtext == '@認識空氣品質指標':
         try:
-            message = [
-                TextSendMessage(
-                    text = "$$$$$\n\n國家 PM2.5 室內標準值為 35μm (微米)，在此狀況下空氣都是乾淨無害，但高於 35μm 時，敏感族群可能會感覺到不適，超過 50μm 時，則會對所有人群健康造成不良的影響。此外，煮菜的油煙、焚香跟抽菸都會產生懸浮微粒，導致 pm2.5 升高唷！", emojis = emojis_pm25
-            ),
-                TextSendMessage(
-                    text = "$$\n\n一氧化碳雖然是無色、無臭、無味氣體，但吸入對人體有十分大的傷害，與血液結合會生成碳氧血紅蛋白，導致不能提供氧氣給身體各部位。如果出現頭痛、頭暈、噁心想吐、四肢無力等症狀，應立即採取開啟對外窗戶，使室內外空氣流通，並盡速就醫。", emojis = emojis_CO
-            ),
-                 TextSendMessage(
-                    text = "$$$\n\n二氧化硫數值高於 5ppm 時，我們會明顯感覺到一股刺鼻的味道，當數值達到 20ppm 時會對我們的眼睛、呼吸道造成刺激性的影響，此時要盡可能避免外出，如果必須出門則需針對眼、口、鼻進行必要的防範措施，千萬不能輕忽，否則造成更嚴重的身體傷害。", emojis = emojis_SO2
-            ),
-                  TextSendMessage(
-                    text = "$$\n\n臭氧值大部分都會低於 120ppb，當數值接近或超過 300ppb 時，對人體就會有不良的影響，例如眼睛刺痛、肺功能降低等等。日常生活中，午後時光要特別留心臭氧的危害，通常臭氧濃度最高的時候會出現在下午 2 ～ 4 點左右，即一天之中陽光最強、溫度最高的時段，此時應避免出門，特別是秋天。", emojis = emojis_O3
-            ),
-                   TextSendMessage(
-                    text = "$$$\n\n二氧化氮值在 100 以下都屬於正常，但高於 100 時則容易對過敏族群造成影響，而高於 150 時會對所有人群的健康造成傷害；另外，二氧化氮會造成使支氣管疾病更加嚴重，出門時觀察一下這個指標吧！", emojis = emojis_NO2
-            )
-            ]
-            line_bot_api.reply_message(event.reply_token,message)
+            message = Air_var_json
+            line_bot_api.reply_message(event.reply_token, FlexSendMessage('@各區天氣預報',message))
+
+
         except:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
             
@@ -346,18 +434,18 @@ def handle_message(event):
                                   label = PM25_clean["product_name"][0],
                                   uri = PM25_clean["new_url"][0]
                                ),
-                               URITemplateAction(
-                                  label = PM25_clean["product_name"][1],
-                                  uri = PM25_clean["new_url"][1]
-                               ),
                                 URITemplateAction(
-                                   label = PM25_clean["product_name"][2],
-                                   uri = PM25_clean["new_url"][2]
+                                   label = PM25_clean["product_name"][1],
+                                   uri = PM25_clean["new_url"][1]
                                 ),
-                                URITemplateAction(
-                                   label = PM25_clean["product_name"][3],
-                                   uri = PM25_clean["new_url"][3]
-                                )
+                                 URITemplateAction(
+                                    label = PM25_clean["product_name"][2],
+                                    uri = PM25_clean["new_url"][2]
+                                ),
+                                 URITemplateAction(
+                                    label = PM25_clean["product_name"][3],
+                                    uri = PM25_clean["new_url"][3]
+                                 )
                     ]
                 )
             )
@@ -508,9 +596,16 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
     
     elif mtext == '@國內疫情':
+        emoji = [
+        {
+            "index": 0,
+            "productId": "5ac21542031a6752fb806d55",
+            "emojiId": "240"
+        }
+    ]
         try:
             message = TextSendMessage(  
-                text = "今日共新增 {} 例，其中本土共 {} 例，境外共 {} 例".format(0, 0, 0)
+                text = covid19title(), emojis = emoji
             )
             line_bot_api.reply_message(event.reply_token,message)
         except:
@@ -638,8 +733,8 @@ def handle_message(event):
                     text = "流行性感冒趨勢圖"
                 ),
                 ImageSendMessage(  #傳送圖片
-                    original_content_url = "https://img.onl/7ro5BO",
-                    preview_image_url = "https://img.onl/7ro5BO"
+                    original_content_url = "https://img.onl/jQt3oE",
+                    preview_image_url = "https://img.onl/jQt3oE"
                 ),
                 TextSendMessage(
                 text='請選擇您最想了解的資訊',
@@ -667,8 +762,8 @@ def handle_message(event):
                     text = "腸病毒趨勢圖"
                 ),
                 ImageSendMessage(  #傳送圖片
-                    original_content_url = "https://img.onl/ZcJDSA",
-                    preview_image_url = "https://img.onl/ZcJDSA"
+                    original_content_url = "https://img.onl/bUt2N",
+                    preview_image_url = "https://img.onl/bUt2N"
                 ),
                 TextSendMessage(
                 text='請選擇您最想了解的資訊',
@@ -798,7 +893,7 @@ def handle_message(event):
                     title='乾洗手推薦商品',
                     text='請選擇：',
                     actions=[
-                              URITemplateAction(label = Dry_hands["product_name"][4], uri = Dry_hands.url[4]),
+                              URITemplateAction(label = Dry_hands["product_name"][0], uri = Dry_hands.url[0]),
                               URITemplateAction(label = Dry_hands["product_name"][1], uri = Dry_hands.url[1]),
                               URITemplateAction(label = Dry_hands["product_name"][2], uri = Dry_hands.url[2]),
                               URITemplateAction(label = Dry_hands["product_name"][3], uri = Dry_hands.url[3])
@@ -882,8 +977,31 @@ def handle_message(event):
 # =============================================================================
 ### 4. 小百科
 
+    # elif mtext == '@請點選您要看的小百科':
+    #     Encyclopedia(event)
+    
     elif mtext == '@請點選您要看的小百科':
-        Encyclopedia(event)
+        try:
+            # message = json.load(open('C:/Users/user/OneDrive/桌面/Air/code/Line_Bot/weather.txt','r',encoding='utf-8'))
+            message = book_json
+            line_bot_api.reply_message(event.reply_token, FlexSendMessage('@請點選您要看的小百科',message))
+
+
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+        
+
+# =============================================================================
+### 5. 吃飯
+
+    elif mtext == "吃飯吃飯吃飯":
+        try:
+            message = TextSendMessage(  
+                text = food()
+            )
+            line_bot_api.reply_message(event.reply_token,message)
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
 
     
 # =============================================================================
@@ -922,6 +1040,15 @@ def COVID_19_num(event):  #按鈕樣版
         line_bot_api.reply_message(event.reply_token, message)
     except:
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+        
+        
+def covid19title():
+    url = 'https://covid-19.nchc.org.tw/api/covid19?CK=covid-19@nchc.org.tw&querydata=4001&limited=TWN'
+    res = requests.get(url)
+    date = res.json()[0]['a04']
+    total = res.json()[0]['a05']
+    today = res.json()[0]['a06']
+    return f'$公告日期：{date}\n       確診人數：{today}人\n       累計確診人數：{total}人'
         
         
 ### COVID-19 商品推薦
@@ -1166,6 +1293,9 @@ def product():
             change = list(final_string)
             change[5:10] = ""
             final_string = "".join(change)
+            
+        elif "’" in final_string:
+            final_string = final_string.replace("Dr.Bronner’s", "")
         product_name.append(final_string)
         
     df["product_name"] = product_name
@@ -1267,6 +1397,534 @@ def replyMessage(payload):
     response = requests.post('https://api.line.me/v2/bot/message/reply',headers=HEADER,data=json.dumps(payload))
     print(response.text)
     return 'OK'
+
+def food():
+    import random
+    food = ["早到晚到", "孫東寶"] #"麥當勞","大四喜","素食","麻豆子","711關東煮","雙贏涼麵","早到晚到","排骨酥麵","八方雲集", "孫東寶"
+    good = random.choice(food)
+        
+    return f'今天吃什麼：{good}'
+
+weather_json = {
+      "type": "bubble",
+      "size": "kilo",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "各區天氣預報",
+            "weight": "bold",
+            "size": "xl"
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "margin": "md",
+            "contents": [
+              {
+                "type": "text",
+                "text": "請選擇您想查看的區域",
+                "size": "sm",
+                "color": "#828282",
+                "margin": "md",
+                "flex": 0
+              }
+            ]
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "uri",
+              "label": "桃園區",
+              "uri": "https://google.com"
+            }
+          },
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "uri",
+              "label": "中壢區",
+              "uri": "https://google.com"
+            }
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "uri": "https://google.com",
+              "label": "大園區"
+            }
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "觀音區",
+              "uri": "https://google.com"
+            }
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "龍潭區",
+              "uri": "https://google.com"
+            }
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "平鎮區",
+              "uri": "https://google.com"
+            }
+          }
+        ],
+        "flex": 0
+      },
+      "styles": {
+        "body": {
+          "backgroundColor": "#FFE4B5"
+        },
+        "footer": {
+          "backgroundColor": "#FFF8DC"
+        }
+      }
+    }
+
+Air_json = {
+  "type": "bubble",
+  "size": "kilo",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "空氣品質相關資訊",
+        "weight": "bold",
+        "size": "xl"
+      },
+      {
+        "type": "box",
+        "layout": "baseline",
+        "margin": "md",
+        "contents": [
+          {
+            "type": "text",
+            "text": "請選擇：",
+            "size": "sm",
+            "color": "#828282",
+            "margin": "md",
+            "flex": 0
+          }
+        ]
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "sm",
+    "contents": [
+      {
+        "type": "button",
+        "style": "link",
+        "height": "sm",
+        "action": {
+          "type": "uri",
+          "label": "空氣品質即時通",
+          "uri": "https://google.com"
+        }
+      },
+      {
+        "type": "button",
+        "style": "link",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "認識指標",
+          "text": "@認識空氣品質指標"
+        }
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "好物推薦",
+          "text": "@今日好物推薦"
+        }
+      }
+    ],
+    "flex": 0
+  },
+  "styles": {
+    "body": {
+      "backgroundColor": "#FFE4B5"
+    },
+    "footer": {
+      "backgroundColor": "#FFF8DC"
+    }
+  }
+}
+
+Air_var_json = {
+  "type": "carousel",
+  "contents": [
+    {
+      "type": "bubble",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "margin": "md",
+            "contents": [
+              {
+                "type": "icon",
+                "size": "3xl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/016.png?v=1"
+              },
+              {
+                "type": "icon",
+                "size": "3xl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/013.png?v=1"
+              },
+              {
+                "type": "icon",
+                "size": "3xl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/054.png?v=1"
+              },
+              {
+                "type": "icon",
+                "size": "3xl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/094.png?v=1"
+              },
+              {
+                "type": "icon",
+                "size": "3xl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/057.png?v=1"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": " "
+          },
+          {
+            "type": "text",
+            "text": "國家 PM2.5 室內標準值為 35μm (微米)，在此狀況下空氣都是乾淨無害，但高於 35μm 時，敏感族群可能會感覺到不適，超過 50μm 時，則會對所有人群健康造成不良的影響。此外，煮菜的油煙、焚香跟抽菸都會產生懸浮微粒，導致 pm2.5 升高唷！",
+            "offsetTop": "none",
+            "wrap": True,
+            "style": "normal",
+            "size": "md",
+            "align": "start"
+          }
+        ]
+      },
+      "styles": {
+        "body": {
+          "backgroundColor": "#EEDFCC"
+        }
+      }
+    },
+    {
+      "type": "bubble",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "margin": "md",
+            "contents": [
+              {
+                "type": "icon",
+                "size": "3xl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/003.png?v=1"
+              },
+              {
+                "type": "icon",
+                "size": "3xl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/015.png?v=1"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": " "
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "一氧化碳雖然是無色、無臭、無味氣體，但吸入對人體有十分大的傷害，與血液結合會生成碳氧血紅蛋白，導致不能提供氧氣給身體各部位。如果出現頭痛、頭暈、噁心想吐、四肢無力等症狀，應立即採取開啟對外窗戶，使室內外空氣流通，並盡速就醫。",
+                "margin": "none",
+                "size": "md",
+                "wrap": True
+              }
+            ]
+          }
+        ]
+      },
+      "styles": {
+        "body": {
+          "backgroundColor": "#EEDFCC"
+        }
+      }
+    },
+    {
+      "type": "bubble",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "margin": "md",
+            "contents": [
+              {
+                "type": "icon",
+                "size": "3xl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/019.png?v=1"
+              },
+              {
+                "type": "icon",
+                "size": "3xl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/015.png?v=1"
+              },
+              {
+                "type": "icon",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/054.png?v=1",
+                "size": "3xl"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": " "
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "二氧化硫數值高於 5ppm 時，我們會明顯感覺到一股刺鼻的味道，當數值達到 20ppm 時會對我們的眼睛、呼吸道造成刺激性的影響，此時要盡可能避免外出，如果必須出門則需針對眼、口、鼻進行必要的防範措施，千萬不能輕忽，否則造成更嚴重的身體傷害",
+                "margin": "none",
+                "size": "md",
+                "wrap": True
+              }
+            ]
+          }
+        ]
+      },
+      "styles": {
+        "body": {
+          "backgroundColor": "#EEDFCC"
+        }
+      }
+    },
+    {
+      "type": "bubble",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "margin": "md",
+            "contents": [
+              {
+                "type": "icon",
+                "size": "3xl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/015.png?v=1"
+              },
+              {
+                "type": "icon",
+                "size": "3xl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/055.png?v=1"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": " "
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "臭氧值大部分都會低於 120ppb，當數值接近或超過 300ppb 時，對人體就會有不良的影響，例如眼睛刺痛、肺功能降低等等。日常生活中，午後時光要特別留心臭氧的危害，通常臭氧濃度最高的時候會出現在下午 2 ～ 4 點左右，即一天之中陽光最強、溫度最高的時段，此時應避免出門，特別是秋天。",
+                "margin": "none",
+                "size": "md",
+                "wrap": True
+              }
+            ]
+          }
+        ]
+      },
+      "styles": {
+        "body": {
+          "backgroundColor": "#EEDFCC"
+        }
+      }
+    },
+    {
+      "type": "bubble",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "margin": "md",
+            "contents": [
+              {
+                "type": "icon",
+                "size": "3xl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/014.png?v=1"
+              },
+              {
+                "type": "icon",
+                "size": "3xl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/015.png?v=1"
+              },
+              {
+                "type": "icon",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/054.png?v=1",
+                "size": "3xl"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": " "
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "二氧化氮值在 100 以下都屬於正常，但高於 100 時則容易對過敏族群造成影響，而高於 150 時會對所有人群的健康造成傷害；另外，二氧化氮會造成使支氣管疾病更加嚴重，出門時觀察一下這個指標吧！",
+                "margin": "none",
+                "size": "md",
+                "wrap": True
+              }
+            ]
+          }
+        ]
+      },
+      "styles": {
+        "body": {
+          "backgroundColor": "#EEDFCC"
+        }
+      }
+    }
+  ]
+}
+
+book_json = {
+  "type": "bubble",
+  "hero": {
+    "type": "image",
+    "url": "https://i.imgur.com/OTzWaSn.png",
+    "size": "full",
+    "aspectRatio": "20:13",
+    "aspectMode": "cover",
+    "action": {
+      "type": "uri",
+      "uri": "http://linecorp.com/"
+    },
+    "margin": "none"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "小百科",
+        "weight": "bold",
+        "size": "xl"
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "sm",
+    "contents": [
+      {
+        "type": "button",
+        "height": "sm",
+        "action": {
+          "type": "uri",
+          "label": "空氣品質",
+          "uri": "https://github.com/Liu-Pei-Hsuan/Team3/blob/main/Yi/%E5%B0%88%E9%A1%8C%E6%96%87%E7%8D%BB/%E7%A9%BA%E6%B0%A3%E5%93%81%E8%B3%AA.pdf"
+        },
+        "margin": "none",
+        "flex": 0,
+        "style": "secondary"
+      },
+      {
+        "type": "button",
+        "style": "secondary",
+        "height": "sm",
+        "action": {
+          "type": "uri",
+          "label": "流行疾病",
+          "uri": "https://github.com/Liu-Pei-Hsuan/Team3/blob/main/Yi/%E5%B0%88%E9%A1%8C%E6%96%87%E7%8D%BB/%E6%B5%81%E8%A1%8C%E7%96%BE%E7%97%85.pdf"
+        }
+      }
+    ],
+    "flex": 0
+  }
+}
+
+def station(disMinName, disMinDistance):
+    station = {
+        "type": "bubble",
+        "body": {
+            "type": "box", "layout": "vertical",
+        "contents": [
+            {
+                "type": "text",
+                "text": "距離{}最近，距離 {} 公里".format(disMinName, disMinDistance)
+            }
+        ]
+        },
+        "styles": {
+            "body": {
+                "backgroundColor": "#FFF8DC"
+        }
+        }
+    }
+    return station
 
 
 if __name__ == "__main__":
