@@ -1,0 +1,46 @@
+def station(disMinName, disMinDistance):
+    station = {
+          "type": "bubble",
+          "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "contents": [
+                  {
+                    "type": "span",
+                    "text": "距離"
+                  },
+                  {
+                    "type": "span",
+                    "text": "{}".format(disMinName),
+                    "color": "#4F94CD",
+                    "weight": "bold",
+                    "size": "lg"
+                  },
+                  {
+                    "type": "span",
+                    "text": "最近，距離 "
+                  },
+                  {
+                    "type": "span",
+                    "text": "{}".format(disMinDistance),
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "span",
+                    "text": " 公里"
+                  }
+                ],
+                "wrap": True
+              }
+            ]
+          },
+          "styles": {
+            "body": {
+              "backgroundColor": "#FFF8DC"
+            }
+          }
+        }
+    return station

@@ -1,0 +1,80 @@
+{
+  "type": "bubble",
+  "size": "kilo",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "margin": "md",
+        "contents": [
+          {
+            "type": "text",
+            "text": "請選擇您最關心的疾病",
+            "size": "lg",
+            "flex": 0,
+            "weight": "bold"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn0.iconfinder.com/data/icons/coronavirus-33/512/cough-virus-flu-sick-coronavirus-512.png",
+            "size": "3xl",
+            "margin": "none",
+            "offsetTop": "xs",
+            "offsetStart": "md"
+          }
+        ]
+      }
+    ]
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "button",
+        "style": "link",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "COVID-19",
+          "text": "COVID-19"
+        }
+      },
+      {
+        "type": "button",
+        "style": "link",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "流行性感冒",
+          "text": "流行性感冒"
+        }
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "腸病毒",
+          "text": "腸病毒"
+        }
+      }
+    ]
+  },
+  "styles": {
+    "header": {
+      "backgroundColor": "#7FA5F8"
+    },
+    "hero": {
+      "backgroundColor": "#FFE4B5"
+    },
+    "body": {
+      "backgroundColor": "#E2EBFD"
+    },
+    "footer": {
+      "backgroundColor": "#FFF8DC"
+    }
+  }
+}

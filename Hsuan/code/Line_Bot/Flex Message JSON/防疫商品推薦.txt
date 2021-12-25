@@ -1,0 +1,94 @@
+{
+  "type": "bubble",
+  "size": "kilo",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "margin": "md",
+        "contents": [
+          {
+            "type": "text",
+            "text": "防疫商品推薦",
+            "size": "xl",
+            "margin": "30px",
+            "flex": 0,
+            "weight": "bold"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/social-media-1-filled-outline-77-background/468/Layer4-512.png",
+            "size": "3xl",
+            "margin": "md",
+            "offsetTop": "sm"
+          }
+        ]
+      }
+    ],
+    "margin": "none"
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "1px",
+    "contents": [
+      {
+        "type": "button",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "酒精類",
+          "text": "@酒精類"
+        },
+        "color": "#27408B",
+        "margin": "none",
+        "gravity": "center"
+      },
+      {
+        "type": "button",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "乾洗手",
+          "text": "@乾洗手"
+        },
+        "color": "#27408B"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "不織布口罩",
+          "text": "@不織布口罩"
+        },
+        "color": "#27408B"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "安全護目鏡",
+          "text": "@安全護目鏡"
+        },
+        "color": "#27408B"
+      }
+    ],
+    "flex": 0,
+    "margin": "none",
+    "borderWidth": "none",
+    "cornerRadius": "none",
+    "alignItems": "center",
+    "justifyContent": "space-around"
+  },
+  "styles": {
+    "body": {
+      "backgroundColor": "#7FA5F8"
+    },
+    "footer": {
+      "backgroundColor": "#E2EBFD"
+    }
+  }
+}

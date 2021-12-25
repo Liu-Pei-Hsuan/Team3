@@ -1,0 +1,219 @@
+{
+  "type": "bubble",
+  "size": "mega",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "text",
+            "text": "各區天氣預報",
+            "size": "xl",
+            "weight": "bold",
+            "flex": 0
+          },
+          {
+            "type": "text",
+            "text": " ",
+            "flex": 0
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn4.iconfinder.com/data/icons/thanksgiving-2020-filled-2/64/thanksgiving-78-128.png",
+            "size": "xxl",
+            "offsetStart": "xs",
+            "offsetTop": "sm"
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "text",
+            "text": "請選擇您想查看的區域",
+            "margin": "md",
+            "size": "sm",
+            "color": "#828282"
+          }
+        ]
+      }
+    ],
+    "spacing": "none",
+    "borderWidth": "none",
+    "paddingAll": "md",
+    "paddingTop": "lg",
+    "paddingStart": "lg",
+    "paddingEnd": "md"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [],
+        "margin": "md"
+      },
+      {
+        "type": "text",
+        "text": " ",
+        "size": "5px"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "桃園區",
+              "uri": "https://google.com"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4b73a5",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8,
+            "offsetBottom": "none"
+          },
+          {
+            "type": "text",
+            "text": " ",
+            "flex": 1
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "中壢區",
+              "uri": "https://google.com"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#539cd8",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          }
+        ],
+        "cornerRadius": "none",
+        "borderWidth": "bold",
+        "offsetTop": "sm",
+        "paddingAll": "none",
+        "spacing": "none"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "大園區",
+              "uri": "https://google.com"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#539cd8",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          },
+          {
+            "type": "text",
+            "text": " ",
+            "flex": 1
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "觀音區",
+              "uri": "https://google.com"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4b73a5",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          }
+        ],
+        "cornerRadius": "none",
+        "borderWidth": "bold",
+        "offsetTop": "md",
+        "paddingAll": "none"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "龍潭區",
+              "uri": "https://google.com"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4b73a5",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          },
+          {
+            "type": "text",
+            "text": " ",
+            "flex": 1
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "平鎮區",
+              "uri": "https://google.com"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#539cd8",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          }
+        ],
+        "cornerRadius": "none",
+        "borderWidth": "bold",
+        "offsetTop": "lg",
+        "paddingAll": "none",
+        "spacing": "none"
+      }
+    ],
+    "offsetBottom": "md",
+    "spacing": "none"
+  },
+  "styles": {
+    "header": {
+      "backgroundColor": "#FFE4B5"
+    },
+    "hero": {
+      "backgroundColor": "#FFE4C4"
+    },
+    "body": {
+      "backgroundColor": "#FFF8DC"
+    },
+    "footer": {
+      "backgroundColor": "#FFE4B5"
+    }
+  }
+}

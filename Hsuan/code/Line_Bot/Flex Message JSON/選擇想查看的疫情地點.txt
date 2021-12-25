@@ -1,0 +1,84 @@
+{
+  "type": "bubble",
+  "size": "kilo",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "margin": "md",
+        "contents": [
+          {
+            "type": "text",
+            "text": "選擇您想查看的地點",
+            "size": "19px",
+            "flex": 0,
+            "weight": "bold"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/search-engine-optimisation-seo/44/seo_icons-26-512.png",
+            "size": "3xl",
+            "margin": "sm",
+            "offsetTop": "sm"
+          }
+        ]
+      }
+    ],
+    "margin": "none"
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "1px",
+    "contents": [
+      {
+        "type": "button",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "全台",
+          "text": "@國內疫情"
+        },
+        "color": "#27408B",
+        "margin": "none",
+        "gravity": "center"
+      },
+      {
+        "type": "button",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "桃園",
+          "text": "@桃園疫情"
+        },
+        "color": "#27408B"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "其他縣市",
+          "text": "@其他縣市"
+        },
+        "color": "#27408B"
+      }
+    ],
+    "flex": 0,
+    "margin": "none",
+    "borderWidth": "none",
+    "cornerRadius": "none",
+    "alignItems": "center",
+    "justifyContent": "space-around"
+  },
+  "styles": {
+    "body": {
+      "backgroundColor": "#7FA5F8"
+    },
+    "footer": {
+      "backgroundColor": "#E2EBFD"
+    }
+  }
+}

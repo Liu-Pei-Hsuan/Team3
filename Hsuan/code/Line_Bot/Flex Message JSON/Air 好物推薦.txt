@@ -1,0 +1,425 @@
+{
+  type carousel,
+  contents [
+    {
+      type bubble,
+      size kilo,
+      header {
+        type box,
+        layout vertical,
+        contents [
+          {
+            type box,
+            layout baseline,
+            margin md,
+            contents [
+              {
+                type icon,
+                size xxl,
+                url httpsstickershop.line-scdn.netsticonshopv1sticon5ac21a8c040ab15980c9b43fandroid016.pngv=1,
+                margin none,
+                offsetTop sm
+              },
+              {
+                type icon,
+                size xxl,
+                url httpsstickershop.line-scdn.netsticonshopv1sticon5ac21a8c040ab15980c9b43fandroid013.pngv=1,
+                offsetTop sm
+              },
+              {
+                type icon,
+                size xxl,
+                url httpsstickershop.line-scdn.netsticonshopv1sticon5ac21a8c040ab15980c9b43fandroid054.pngv=1,
+                offsetTop sm
+              },
+              {
+                type icon,
+                size xl,
+                url httpsstickershop.line-scdn.netsticonshopv1sticon5ac21a8c040ab15980c9b43fandroid094.pngv=1,
+                offsetTop sm
+              },
+              {
+                type icon,
+                size xxl,
+                url httpsstickershop.line-scdn.netsticonshopv1sticon5ac21a8c040ab15980c9b43fandroid057.pngv=1,
+                offsetTop sm
+              },
+              {
+                type text,
+                text 推薦商品,
+                size xl,
+                flex 0,
+                weight bold
+              }
+            ]
+          }
+        ]
+      },
+      body {
+        type box,
+        layout vertical,
+        contents [
+          {
+            type button,
+            style link,
+            height sm,
+            action {
+              type message,
+              label PM2.5 空氣清淨機,
+              text @PM2.5 空氣清淨機
+            }
+          },
+          {
+            type button,
+            style link,
+            height sm,
+            action {
+              type message,
+              label 活性碳口罩,
+              text @活性碳口罩
+            }
+          }
+        ]
+      },
+      styles {
+        header {
+          backgroundColor #66CDAA
+        },
+        hero {
+          backgroundColor #FFE4B5
+        },
+        body {
+          backgroundColor #E9F5DB
+        },
+        footer {
+          backgroundColor #FFF8DC
+        }
+      }
+    },
+    {
+      type bubble,
+      size kilo,
+      header {
+        type box,
+        layout vertical,
+        contents [
+          {
+            type box,
+            layout baseline,
+            margin md,
+            contents [
+              {
+                type icon,
+                size xxl,
+                url httpsstickershop.line-scdn.netsticonshopv1sticon5ac21a8c040ab15980c9b43fandroid003.pngv=1,
+                offsetTop sm,
+                margin none
+              },
+              {
+                type icon,
+                size xxl,
+                url httpsstickershop.line-scdn.netsticonshopv1sticon5ac21a8c040ab15980c9b43fandroid015.pngv=1,
+                offsetTop sm,
+                margin none
+              },
+              {
+                type text,
+                text 推薦商品,
+                size xl,
+                flex 0,
+                weight bold,
+                offsetStart md
+              }
+            ]
+          }
+        ]
+      },
+      body {
+        type box,
+        layout vertical,
+        contents [
+          {
+            type button,
+            style link,
+            height sm,
+            action {
+              type message,
+              label 一氧化碳偵測儀,
+              text @一氧化碳偵測儀
+            }
+          },
+          {
+            type button,
+            style link,
+            height sm,
+            action {
+              type message,
+              label 瓦斯警報器,
+              text @瓦斯警報器
+            }
+          }
+        ]
+      },
+      styles {
+        header {
+          backgroundColor #66CDAA
+        },
+        hero {
+          backgroundColor #FFE4B5
+        },
+        body {
+          backgroundColor #E9F5DB
+        },
+        footer {
+          backgroundColor #FFF8DC
+        }
+      }
+    },
+    {
+      type bubble,
+      size kilo,
+      header {
+        type box,
+        layout vertical,
+        contents [
+          {
+            type box,
+            layout baseline,
+            margin md,
+            contents [
+              {
+                type icon,
+                size xxl,
+                url httpsstickershop.line-scdn.netsticonshopv1sticon5ac21a8c040ab15980c9b43fandroid019.pngv=1,
+                offsetTop sm
+              },
+              {
+                type icon,
+                size xxl,
+                url httpsstickershop.line-scdn.netsticonshopv1sticon5ac21a8c040ab15980c9b43fandroid015.pngv=1,
+                offsetTop sm
+              },
+              {
+                type icon,
+                url httpsstickershop.line-scdn.netsticonshopv1sticon5ac21a8c040ab15980c9b43fandroid054.pngv=1,
+                size xxl,
+                offsetTop sm
+              },
+              {
+                type text,
+                text 推薦商品,
+                size xl,
+                flex 0,
+                weight bold,
+                offsetStart md
+              }
+            ]
+          }
+        ]
+      },
+      body {
+        type box,
+        layout vertical,
+        contents [
+          {
+            type button,
+            style link,
+            height sm,
+            action {
+              type message,
+              label 安全護目鏡,
+              text @安全護目鏡
+            }
+          },
+          {
+            type button,
+            style link,
+            height sm,
+            action {
+              type message,
+              label 口罩,
+              text @口罩
+            }
+          }
+        ]
+      },
+      styles {
+        header {
+          backgroundColor #66CDAA
+        },
+        hero {
+          backgroundColor #FFE4B5
+        },
+        body {
+          backgroundColor #E9F5DB
+        },
+        footer {
+          backgroundColor #FFF8DC
+        }
+      }
+    },
+    {
+      type bubble,
+      size kilo,
+      header {
+        type box,
+        layout vertical,
+        contents [
+          {
+            type box,
+            layout baseline,
+            margin md,
+            contents [
+              {
+                type icon,
+                size xxl,
+                url httpsstickershop.line-scdn.netsticonshopv1sticon5ac21a8c040ab15980c9b43fandroid015.pngv=1,
+                margin none,
+                offsetTop sm
+              },
+              {
+                type icon,
+                size xxl,
+                url httpsstickershop.line-scdn.netsticonshopv1sticon5ac21a8c040ab15980c9b43fandroid055.pngv=1,
+                offsetTop sm
+              },
+              {
+                type text,
+                text 推薦商品,
+                size xl,
+                flex 0,
+                weight bold
+              }
+            ]
+          }
+        ]
+      },
+      body {
+        type box,
+        layout vertical,
+        contents [
+          {
+            type button,
+            style link,
+            height sm,
+            action {
+              type message,
+              label PM2.5 空氣清淨機,
+              text @PM2.5 空氣清淨機
+            }
+          },
+          {
+            type button,
+            style link,
+            height sm,
+            action {
+              type message,
+              label 活性碳口罩,
+              text @活性碳口罩
+            }
+          }
+        ]
+      },
+      styles {
+        header {
+          backgroundColor #66CDAA
+        },
+        hero {
+          backgroundColor #FFE4B5
+        },
+        body {
+          backgroundColor #E9F5DB
+        },
+        footer {
+          backgroundColor #FFF8DC
+        }
+      }
+    },
+    {
+      type bubble,
+      size kilo,
+      header {
+        type box,
+        layout vertical,
+        contents [
+          {
+            type box,
+            layout baseline,
+            margin md,
+            contents [
+              {
+                type icon,
+                size xxl,
+                url httpsstickershop.line-scdn.netsticonshopv1sticon5ac21a8c040ab15980c9b43fandroid014.pngv=1,
+                margin none,
+                offsetTop sm
+              },
+              {
+                type icon,
+                size xxl,
+                url httpsstickershop.line-scdn.netsticonshopv1sticon5ac21a8c040ab15980c9b43fandroid015.pngv=1,
+                margin none,
+                offsetTop sm
+              },
+              {
+                type icon,
+                size xxl,
+                url httpsstickershop.line-scdn.netsticonshopv1sticon5ac21a8c040ab15980c9b43fandroid054.pngv=1,
+                margin none,
+                offsetTop sm
+              },
+              {
+                type text,
+                text 推薦商品,
+                size xl,
+                flex 0,
+                weight bold,
+                offsetStart md
+              }
+            ]
+          }
+        ]
+      },
+      body {
+        type box,
+        layout vertical,
+        contents [
+          {
+            type button,
+            style link,
+            height sm,
+            action {
+              type message,
+              label 安全護目鏡,
+              text @安全護目鏡
+            }
+          },
+          {
+            type button,
+            style link,
+            height sm,
+            action {
+              type message,
+              label 口罩,
+              text @口罩
+            }
+          }
+        ]
+      },
+      styles {
+        header {
+          backgroundColor #66CDAA
+        },
+        hero {
+          backgroundColor #FFE4B5
+        },
+        body {
+          backgroundColor #E9F5DB
+        },
+        footer {
+          backgroundColor #FFF8DC
+        }
+      }
+    }
+  ]
+}

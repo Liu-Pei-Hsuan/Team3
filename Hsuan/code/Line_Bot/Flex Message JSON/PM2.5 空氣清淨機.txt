@@ -1,0 +1,85 @@
+{
+  "type": "bubble",
+  "size": "kilo",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "margin": "md",
+        "contents": [
+          {
+            "type": "text",
+            "text": "PM2.5 空氣清淨機",
+            "size": "xl",
+            "flex": 0,
+            "weight": "bold",
+            "offsetStart": "md"
+          }
+        ]
+      }
+    ]
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "button",
+        "style": "link",
+        "height": "sm",
+        "action": {
+          "type": "uri",
+          "label": "PM25_clean[\"product_name\"][0]",
+          "uri": "https://google.com"
+        }
+      },
+      {
+        "type": "button",
+        "style": "link",
+        "height": "sm",
+        "action": {
+          "type": "uri",
+          "label": "PM25_clean[\"product_name\"][0]",
+          "uri": "https://google.com"
+        }
+      },
+      {
+        "type": "button",
+        "style": "link",
+        "height": "sm",
+        "action": {
+          "type": "uri",
+          "label": "PM25_clean[\"product_name\"][0]",
+          "uri": "https://google.com"
+        }
+      },
+      {
+        "type": "button",
+        "style": "link",
+        "height": "sm",
+        "action": {
+          "type": "uri",
+          "label": "PM25_clean[\"product_name\"][0]",
+          "uri": "https://google.com"
+        }
+      }
+    ]
+  },
+  "styles": {
+    "header": {
+      "backgroundColor": "#66CDAA"
+    },
+    "hero": {
+      "backgroundColor": "#FFE4B5"
+    },
+    "body": {
+      "backgroundColor": "#E9F5DB"
+    },
+    "footer": {
+      "backgroundColor": "#FFF8DC"
+    }
+  }
+}

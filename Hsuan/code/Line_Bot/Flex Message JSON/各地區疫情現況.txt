@@ -1,0 +1,96 @@
+{
+  "type": "bubble",
+  "size": "kilo",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "margin": "md",
+        "contents": [
+          {
+            "type": "text",
+            "text": "各地區疫情現況",
+            "size": "19px",
+            "flex": 0,
+            "weight": "bold"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn2.iconfinder.com/data/icons/coronavirus-77/512/coronavirus-covid-12-512.png",
+            "size": "3xl",
+            "margin": "sm",
+            "offsetTop": "sm"
+          }
+        ]
+      }
+    ],
+    "margin": "none"
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "1px",
+    "contents": [
+      {
+        "type": "button",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "北部地區",
+          "text": "@北部地區"
+        },
+        "color": "#27408B",
+        "margin": "none",
+        "gravity": "center"
+      },
+      {
+        "type": "button",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "中部地區",
+          "text": "@中部地區"
+        },
+        "color": "#27408B"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "南部地區",
+          "text": "@南部地區"
+        },
+        "color": "#27408B"
+      },
+      {
+        "type": "button",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "東部地區",
+          "text": "@東部地區"
+        },
+        "color": "#27408B",
+        "margin": "none",
+        "gravity": "center"
+      }
+    ],
+    "flex": 0,
+    "margin": "none",
+    "borderWidth": "none",
+    "cornerRadius": "none",
+    "alignItems": "center",
+    "justifyContent": "space-around"
+  },
+  "styles": {
+    "body": {
+      "backgroundColor": "#7FA5F8"
+    },
+    "footer": {
+      "backgroundColor": "#E2EBFD"
+    }
+  }
+}

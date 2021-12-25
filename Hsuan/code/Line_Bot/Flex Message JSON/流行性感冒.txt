@@ -1,0 +1,187 @@
+{
+  "type": "bubble",
+  "size": "giga",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "流行性感冒趨勢圖",
+        "size": "xl",
+        "weight": "bold"
+      }
+    ],
+    "spacing": "none",
+    "borderWidth": "none",
+    "paddingAll": "md",
+    "paddingTop": "lg",
+    "paddingStart": "lg",
+    "paddingEnd": "md"
+  },
+  "hero": {
+    "type": "image",
+    "url": "https://img.onl/jQt3oE",
+    "size": "full",
+    "aspectMode": "fit",
+    "aspectRatio": "18:11"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "什麼是流行性感冒：",
+        "weight": "bold",
+        "style": "italic",
+        "decoration": "underline",
+        "color": "#104E8B",
+        "size": "lg"
+      },
+      {
+        "type": "text",
+        "text": " ",
+        "size": "5px"
+      },
+      {
+        "type": "text",
+        "text": "國人常常混肴流行性感冒與一般感冒，雖然症狀雷同，但是傳染力更病情的嚴重程度並不是同一個等級。如果你有喉嚨痛、肌肉酸痛、身體乏力的症狀，千萬不要諱疾忌醫，給醫生專業診斷，保護自己也能守護周遭的親朋好友。",
+        "wrap": true
+      },
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "text",
+            "text": "流行性感冒推薦商品：",
+            "color": "#104E8B",
+            "size": "lg",
+            "weight": "bold",
+            "style": "italic",
+            "decoration": "underline",
+            "margin": "none",
+            "position": "relative",
+            "offsetEnd": "none",
+            "flex": 0
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/social-media-1-filled-outline-77-background/468/Layer4-512.png",
+            "margin": "md",
+            "size": "3xl",
+            "offsetTop": "2px"
+          }
+        ],
+        "margin": "md"
+      },
+      {
+        "type": "text",
+        "text": " ",
+        "size": "5px"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "漂白水",
+              "text": "@漂白水"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4F94CD",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          },
+          {
+            "type": "text",
+            "text": " ",
+            "flex": 1
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "乾洗手",
+              "text": "@乾洗手"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4F94CD",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          }
+        ],
+        "cornerRadius": "none",
+        "borderWidth": "bold",
+        "offsetTop": "sm",
+        "paddingAll": "none",
+        "spacing": "none"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "肥皂",
+              "text": "@肥皂"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4F94CD",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          },
+          {
+            "type": "text",
+            "text": " ",
+            "flex": 1
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "不織布口罩",
+              "text": "@不織布口罩"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4F94CD",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          }
+        ],
+        "cornerRadius": "none",
+        "borderWidth": "bold",
+        "offsetTop": "sm",
+        "paddingAll": "none"
+      }
+    ]
+  },
+  "styles": {
+    "header": {
+      "backgroundColor": "#A4D3EE"
+    },
+    "hero": {
+      "backgroundColor": "#A4D3EE"
+    },
+    "body": {
+      "backgroundColor": "#A4D3EE"
+    },
+    "footer": {
+      "backgroundColor": "#FFE4B5"
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "type": "bubble",
+  "size": "kilo",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "text",
+            "text": "小百科",
+            "weight": "bold",
+            "size": "xl",
+            "flex": 0,
+            "offsetStart": "none",
+            "margin": "70px",
+            "offsetBottom": "none",
+            "gravity": "center"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn2.iconfinder.com/data/icons/education-and-knowledge-4-1/128/173-128.png",
+            "size": "3xl",
+            "offsetStart": "md",
+            "offsetTop": "sm"
+          }
+        ]
+      }
+    ],
+    "margin": "none",
+    "spacing": "none",
+    "paddingTop": "md",
+    "paddingBottom": "sm"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "sm",
+    "contents": [
+      {
+        "type": "button",
+        "action": {
+          "type": "uri",
+          "label": "空氣品質",
+          "uri": "https://github.com/Liu-Pei-Hsuan/Team3/blob/main/Yi/%E5%B0%88%E9%A1%8C%E6%96%87%E7%8D%BB/%E7%A9%BA%E6%B0%A3%E5%93%81%E8%B3%AA.pdf"
+        },
+        "flex": 0,
+        "style": "secondary",
+        "color": "#66CDAA"
+      },
+      {
+        "type": "separator",
+        "margin": "md"
+      },
+      {
+        "type": "button",
+        "style": "secondary",
+        "action": {
+          "type": "uri",
+          "label": "流行疾病",
+          "uri": "https://github.com/Liu-Pei-Hsuan/Team3/blob/main/Yi/%E5%B0%88%E9%A1%8C%E6%96%87%E7%8D%BB/%E6%B5%81%E8%A1%8C%E7%96%BE%E7%97%85.pdf"
+        },
+        "color": "#7AC5CD"
+      }
+    ],
+    "flex": 0
+  },
+  "styles": {
+    "header": {
+      "backgroundColor": "#FFE4B5"
+    },
+    "body": {
+      "backgroundColor": "#FFF8DC"
+    }
+  }
+}

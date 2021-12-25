@@ -1,0 +1,112 @@
+{
+  "type": "bubble",
+  "size": "giga",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "COVID-19 趨勢圖",
+        "size": "xl",
+        "weight": "bold"
+      }
+    ],
+    "spacing": "none",
+    "borderWidth": "none",
+    "paddingAll": "md",
+    "paddingTop": "lg",
+    "paddingStart": "lg",
+    "paddingEnd": "md"
+  },
+  "hero": {
+    "type": "image",
+    "url": "https://img.onl/lIcW63",
+    "size": "full",
+    "aspectMode": "fit",
+    "aspectRatio": "18:11"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "COVID-19 簡介：",
+        "weight": "bold",
+        "style": "italic",
+        "decoration": "underline",
+        "color": "#104E8B",
+        "size": "lg"
+      },
+      {
+        "type": "text",
+        "text": " ",
+        "size": "5px"
+      },
+      {
+        "type": "text",
+        "text": "COVID-19 雖然致死率不高，但傳染力極強，稍有不慎就容易感染，進而造成社會恐慌與醫療系統崩潰。在疫情尚未完全清零的情況下，在外仍須配戴好口罩、落實個人衛生保健，並配合政府防疫要求。",
+        "wrap": true
+      },
+      {
+        "type": "text",
+        "text": " ",
+        "size": "12px"
+      },
+      {
+        "type": "text",
+        "text": "更多資訊：",
+        "color": "#104E8B",
+        "size": "lg",
+        "weight": "bold",
+        "style": "italic",
+        "decoration": "underline"
+      },
+      {
+        "type": "text",
+        "text": " ",
+        "size": "10px"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "防疫商品推薦",
+          "text": "@防疫商品推薦"
+        },
+        "style": "primary",
+        "color": "#4F94CD"
+      },
+      {
+        "type": "separator",
+        "margin": "md",
+        "color": "#E2EBFD"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "各縣市疫情狀況",
+          "text": "@各縣市疫情"
+        },
+        "color": "#4F94CD",
+        "style": "primary"
+      }
+    ]
+  },
+  "styles": {
+    "header": {
+      "backgroundColor": "#A4D3EE"
+    },
+    "hero": {
+      "backgroundColor": "#A4D3EE"
+    },
+    "body": {
+      "backgroundColor": "#A4D3EE"
+    },
+    "footer": {
+      "backgroundColor": "#FFE4B5"
+    }
+  }
+}

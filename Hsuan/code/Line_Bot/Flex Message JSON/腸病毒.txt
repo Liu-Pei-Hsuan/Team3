@@ -1,0 +1,187 @@
+{
+  "type": "bubble",
+  "size": "giga",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "腸病毒趨勢圖",
+        "size": "xl",
+        "weight": "bold"
+      }
+    ],
+    "spacing": "none",
+    "borderWidth": "none",
+    "paddingAll": "md",
+    "paddingTop": "lg",
+    "paddingStart": "lg",
+    "paddingEnd": "md"
+  },
+  "hero": {
+    "type": "image",
+    "url": "https://img.onl/bUt2N",
+    "size": "full",
+    "aspectMode": "fit",
+    "aspectRatio": "18:11"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "什麼是腸病毒：",
+        "weight": "bold",
+        "style": "italic",
+        "decoration": "underline",
+        "color": "#104E8B",
+        "size": "lg"
+      },
+      {
+        "type": "text",
+        "text": " ",
+        "size": "5px"
+      },
+      {
+        "type": "text",
+        "text": "腸病毒雖好發在小朋友身上，但是大人也不得輕忽，病毒種類繁多，對身體造成的健康影響不容小覷。最好的防範就是落實個人衛生保健，勤洗手、不要隨處觸碰眼、口、鼻，這樣才能有效遏止唷！",
+        "wrap": true
+      },
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "text",
+            "text": "腸病毒推薦商品：",
+            "color": "#104E8B",
+            "size": "lg",
+            "weight": "bold",
+            "style": "italic",
+            "decoration": "underline",
+            "margin": "none",
+            "position": "relative",
+            "offsetEnd": "none",
+            "flex": 0
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/social-media-1-filled-outline-77-background/468/Layer4-512.png",
+            "margin": "md",
+            "size": "3xl",
+            "offsetTop": "2px"
+          }
+        ],
+        "margin": "md"
+      },
+      {
+        "type": "text",
+        "text": " ",
+        "size": "5px"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "肥皂",
+              "text": "@肥皂"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4F94CD",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          },
+          {
+            "type": "text",
+            "text": " ",
+            "flex": 1
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "酒精",
+              "text": "@酒精"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4F94CD",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          }
+        ],
+        "cornerRadius": "none",
+        "borderWidth": "bold",
+        "offsetTop": "sm",
+        "paddingAll": "none",
+        "spacing": "none"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "漂白水",
+              "text": "@漂白水"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4F94CD",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          },
+          {
+            "type": "text",
+            "text": " ",
+            "flex": 1
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "不織布口罩",
+              "text": "@不織布口罩"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4F94CD",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          }
+        ],
+        "cornerRadius": "none",
+        "borderWidth": "bold",
+        "offsetTop": "sm",
+        "paddingAll": "none"
+      }
+    ]
+  },
+  "styles": {
+    "header": {
+      "backgroundColor": "#A4D3EE"
+    },
+    "hero": {
+      "backgroundColor": "#A4D3EE"
+    },
+    "body": {
+      "backgroundColor": "#A4D3EE"
+    },
+    "footer": {
+      "backgroundColor": "#FFE4B5"
+    }
+  }
+}

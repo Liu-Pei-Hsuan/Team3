@@ -1,0 +1,81 @@
+{
+  "type": "bubble",
+  "size": "kilo",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "margin": "md",
+        "contents": [
+          {
+            "type": "text",
+            "text": "空氣品質相關資訊",
+            "size": "xl",
+            "flex": 0,
+            "weight": "bold",
+            "offsetStart": "md"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/world-pollution-2/512/dust-pollution-city-smoke-air-pm2.5-smog-512.png",
+            "size": "3xl",
+            "margin": "sm",
+            "offsetTop": "xs",
+            "offsetStart": "md"
+          }
+        ]
+      }
+    ]
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "button",
+        "style": "link",
+        "height": "sm",
+        "action": {
+          "type": "uri",
+          "label": "空氣品質即時通",
+          "uri": "https://google.com"
+        }
+      },
+      {
+        "type": "button",
+        "style": "link",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "認識空氣品質指標",
+          "text": "@認識空氣品質指標"
+        }
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "好物推薦",
+          "text": "@今日好物推薦"
+        }
+      }
+    ]
+  },
+  "styles": {
+    "header": {
+      "backgroundColor": "#66CDAA"
+    },
+    "hero": {
+      "backgroundColor": "#FFE4B5"
+    },
+    "body": {
+      "backgroundColor": "#E9F5DB"
+    },
+    "footer": {
+      "backgroundColor": "#FFF8DC"
+    }
+  }
+}

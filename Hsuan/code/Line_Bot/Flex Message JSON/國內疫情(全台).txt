@@ -1,0 +1,116 @@
+{
+  "type": "bubble",
+  "size": "mega",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "icon",
+            "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+            "offsetTop": "sm",
+            "size": "xl"
+          },
+          {
+            "type": "text",
+            "text": "日期：\"{}\".format(covid19title()[0])"
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "icon",
+            "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+            "offsetTop": "sm",
+            "size": "xl"
+          },
+          {
+            "type": "text",
+            "text": "確診人數：\"{}\".format(covid19title()[1])"
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "icon",
+            "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+            "offsetTop": "sm",
+            "size": "xl"
+          },
+          {
+            "type": "text",
+            "text": "新增死亡人數：\"{}\".format(covid19title()[2])"
+          }
+        ]
+      }
+    ],
+    "height": "130px",
+    "offsetBottom": "md"
+  },
+  "styles": {
+    "body": {
+      "backgroundColor": "#A4D3EE"
+    }
+  }
+}

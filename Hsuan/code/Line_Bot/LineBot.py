@@ -14,6 +14,8 @@ from urllib.parse import parse_qsl
 import numpy as np
 import math
 from locData import *
+import pandas as pd
+import pymysql
 
 app = Flask(__name__, static_url_path='/static')
 UPLOAD_FOLDER = 'static'
@@ -79,7 +81,6 @@ def handle_message(event):
             # message = json.load(open('C:/Users/user/OneDrive/桌面/Air/code/Line_Bot/weather.txt','r',encoding='utf-8'))
             message = weather_json
             line_bot_api.reply_message(event.reply_token, FlexSendMessage('@各區天氣預報',message))
-
 
         except:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
@@ -268,14 +269,19 @@ def handle_message(event):
     #         line_bot_api.reply_message(event.reply_token,message)
     #     except:
     #         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
-            
+
     elif mtext == '@今日好物推薦':
-        Products_Featured(event)   
+        try:
+            message = Air_recommend
+            line_bot_api.reply_message(event.reply_token, FlexSendMessage('@今日好物推薦',message))
+
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))              
         
     elif mtext == "@口罩":
         try:
             message = TextSendMessage(
-                text='請選擇您要查看的位置',
+                text='請選擇',
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
@@ -293,7 +299,7 @@ def handle_message(event):
             
     
     elif mtext == '@活性碳口罩': 
-        mask = product()[1]
+        mask = get_data("mask")
         try:
             message = [
                 TemplateSendMessage(
@@ -327,7 +333,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
             
     elif mtext == '@活性碳空氣清淨機':
-        Air_clear = product()[2]
+        Air_clear = get_data("Air_clean")
         try:
             message = [
                 TemplateSendMessage(
@@ -349,7 +355,7 @@ def handle_message(event):
                                   uri = Air_clear.url[2]
                                ),
                                URITemplateAction(
-                                  label = Air_clear["product_name"][4],
+                                  label = Air_clear["product_name"][3],
                                   uri = Air_clear.url[4]
                                )
                     ]
@@ -361,7 +367,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
             
     elif mtext == '@3M 6200 防毒面具':
-        Gas_mask = product()[3]
+        Gas_mask = get_data("Gas_mask")
         try:
             message = [
                 TemplateSendMessage(
@@ -373,11 +379,11 @@ def handle_message(event):
                               URITemplateAction(
                                   label = Gas_mask["product_name"][0],
                                   uri = Gas_mask["new_url"][0]
-                               ),
-                               URITemplateAction(
-                                  label = Gas_mask["product_name"][1],
-                                  uri = Gas_mask["new_url"][1]
-                               )
+                               )#,
+                               # URITemplateAction(
+                               #    label = Gas_mask["product_name"][1],
+                               #    uri = Gas_mask["new_url"][1]
+                               # )
                     ]
                 )
             )
@@ -387,7 +393,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
             
     elif mtext == '@瓦斯警報器':
-        Gas_alarm = product()[5]
+        Gas_alarm = get_data("Gas_alarm")
         try:
             message = [
                 TemplateSendMessage(
@@ -420,8 +426,16 @@ def handle_message(event):
         except:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
             
+    # elif mtext == '@PM2.5 空氣清淨機':
+    #     try:
+    #         message = products("PM2.5 空氣清淨機", get_data("PM25_clean"))
+    #         line_bot_api.reply_message(event.reply_token, FlexSendMessage('@PM2.5 空氣清淨機',message))
+
+    #     except:
+    #         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+            
     elif mtext == '@PM2.5 空氣清淨機': 
-        PM25_clean = product()[6]
+        PM25_clean = get_data("PM25_clean")
         try:
             message = [
                 TemplateSendMessage(
@@ -433,19 +447,19 @@ def handle_message(event):
                               URITemplateAction(
                                   label = PM25_clean["product_name"][0],
                                   uri = PM25_clean["new_url"][0]
-                               ),
-                                URITemplateAction(
-                                   label = PM25_clean["product_name"][1],
-                                   uri = PM25_clean["new_url"][1]
                                 ),
-                                 URITemplateAction(
+                                URITemplateAction(
+                                    label = PM25_clean["product_name"][1],
+                                    uri = PM25_clean["new_url"][1]
+                                ),
+                                  URITemplateAction(
                                     label = PM25_clean["product_name"][2],
                                     uri = PM25_clean["new_url"][2]
                                 ),
-                                 URITemplateAction(
+                                  URITemplateAction(
                                     label = PM25_clean["product_name"][3],
                                     uri = PM25_clean["new_url"][3]
-                                 )
+                                  )
                     ]
                 )
             )
@@ -453,9 +467,10 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,message)
         except:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+
             
     elif mtext == '@一氧化碳偵測儀': 
-        CO_Detector = product()[4]
+        CO_Detector = get_data("CO_Detector")
         try:
             message = [
                 TemplateSendMessage(
@@ -489,7 +504,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
             
     elif mtext == '@安全護目鏡': 
-        glass = product()[0]
+        glass = get_data("glass1")
         try:
             message = [
                 TemplateSendMessage(
@@ -524,89 +539,38 @@ def handle_message(event):
        
 # =============================================================================
 ### 3. 流行疾病
-        
+
     elif mtext == '@請點選您要看的疾病':
         try:
-            message =  TemplateSendMessage(
-                alt_text='請選擇您最關心的疾病',
-                template=ButtonsTemplate(
-                    title='請選擇您最關心的疾病',
-                    text='請選擇：',
-                    actions=[
-                        MessageTemplateAction(label="COVID-19", text="COVID-19"),
-                        MessageTemplateAction(label="流感", text="流感"),
-                        MessageTemplateAction(label="腸病毒", text="腸病毒")
-                    ]
-                )
-            )
-            line_bot_api.reply_message(event.reply_token,message)
+            message = disease_json
+            line_bot_api.reply_message(event.reply_token, FlexSendMessage('@請點選您要看的疾病',message))
+
         except:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
             
             
-    elif mtext == 'COVID-19': 
+    elif mtext == 'COVID-19':
         try:
-            message = [  #串列
-                TextSendMessage(  #傳送文字
-                    text = "COVID-19 趨勢圖"
-                ),
-                ImageSendMessage(  #傳送圖片
-                    original_content_url = "https://img.onl/lIcW63",
-                    preview_image_url = "https://img.onl/lIcW63"
-                ),
-                TextSendMessage(
-                text='請選擇您最想了解的資訊',
-                quick_reply=QuickReply(
-                    items=[
-                        QuickReplyButton(
-                            action=MessageAction(label="認識 COVID-19", text="@認識 COVID-19")
-                        ),
-                        QuickReplyButton(
-                            action=MessageAction(label="防疫商品推薦", text="@防疫商品推薦")
-                        ),
-                        QuickReplyButton(
-                            action=MessageAction(label="各縣市疫情狀況", text="@各縣市疫情")
-                        ),
-                    ]
-                )
-            )
-            ]
-            line_bot_api.reply_message(event.reply_token,message)
+            message = FlexSendMessage('@各區天氣預報', covid19_json)
+            line_bot_api.reply_message(event.reply_token, message)
+
         except:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
             
-    elif mtext == '@各縣市疫情': 
+    elif mtext == '@各縣市疫情':
         try:
-            message = [
-                TemplateSendMessage(
-                alt_text='請選擇您最想查詢的地點',
-                template=ButtonsTemplate(
-                    title='請選擇您最想查詢的地點',
-                    text='請選擇：',
-                    actions=[
-                        MessageTemplateAction(label="全台", text="@國內疫情"),
-                        MessageTemplateAction(label="桃園", text="@桃園疫情"),
-                        MessageTemplateAction(label="其他縣市", text="@其他縣市")
-                    ]
-                )
-            )
-            ]
-            line_bot_api.reply_message(event.reply_token,message)
+            message = covid19_place
+            line_bot_api.reply_message(event.reply_token, FlexSendMessage('@各縣市疫情',message))
+
         except:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+            
     
     elif mtext == '@國內疫情':
-        emoji = [
-        {
-            "index": 0,
-            "productId": "5ac21542031a6752fb806d55",
-            "emojiId": "240"
-        }
-    ]
         try:
-            message = TextSendMessage(  
-                text = covid19title(), emojis = emoji
-            )
+            message = [
+                FlexSendMessage('@國內疫情',covid19_today)
+                ]
             line_bot_api.reply_message(event.reply_token,message)
         except:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
@@ -620,9 +584,13 @@ def handle_message(event):
         except:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
             
-            
-    elif mtext == "@其他縣市":
-        COVID_19_num(event)       
+    elif mtext == '@其他縣市':
+        try:
+            message = covid19_county
+            line_bot_api.reply_message(event.reply_token, FlexSendMessage('@其他縣市',message))
+
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))               
         
     elif mtext == '@北部地區':
         lst = [0, 14, 28, 42, 56, 70, 84]
@@ -724,65 +692,22 @@ def handle_message(event):
         except:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
             
-   
-            
-    elif mtext == '流感': 
+    elif mtext == '流行性感冒':
         try:
-            message = [  #串列
-                TextSendMessage(  #傳送文字
-                    text = "流行性感冒趨勢圖"
-                ),
-                ImageSendMessage(  #傳送圖片
-                    original_content_url = "https://img.onl/jQt3oE",
-                    preview_image_url = "https://img.onl/jQt3oE"
-                ),
-                TextSendMessage(
-                text='請選擇您最想了解的資訊',
-                quick_reply=QuickReply(
-                    items=[
-                        QuickReplyButton(
-                            action=MessageAction(label="什麼是流感", text="@什麼是流感")
-                        ),
-                        QuickReplyButton(
-                            action=MessageAction(label="流感商品推薦", text="@流感商品推薦")
-                        ),
-                    ]
-                )
-            )
-            ]
-            line_bot_api.reply_message(event.reply_token,message)
+            message = influenza_json
+            line_bot_api.reply_message(event.reply_token, FlexSendMessage('流行性感冒',message))
+
         except:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
             
-            
-    elif mtext == '腸病毒': 
+    elif mtext == '腸病毒':
         try:
-            message = [  #串列
-                TextSendMessage(  #傳送文字
-                    text = "腸病毒趨勢圖"
-                ),
-                ImageSendMessage(  #傳送圖片
-                    original_content_url = "https://img.onl/bUt2N",
-                    preview_image_url = "https://img.onl/bUt2N"
-                ),
-                TextSendMessage(
-                text='請選擇您最想了解的資訊',
-                quick_reply=QuickReply(
-                    items=[
-                        QuickReplyButton(
-                            action=MessageAction(label="什麼是腸病毒", text="@什麼是腸病毒")
-                        ),
-                        QuickReplyButton(
-                            action=MessageAction(label="腸病毒商品推薦", text="@腸病毒商品推薦")
-                        ),
-                    ]
-                )
-            )
-            ]
-            line_bot_api.reply_message(event.reply_token,message)
+            message = Enterovirus_json
+            line_bot_api.reply_message(event.reply_token, FlexSendMessage('@各區天氣預報',message))
+
         except:
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
-            
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))  
+                       
     elif mtext == '@認識 COVID-19':
         try:
             message = TextSendMessage(  
@@ -793,32 +718,13 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
             
     elif mtext == '@防疫商品推薦':
-        COVID_19_Products(event)
-        
-    elif mtext == '@什麼是流感':
         try:
-            message = TextSendMessage(  
-                text = "國人常常混肴流行性感冒與一般感冒，雖然症狀雷同，但是傳染力更病情的嚴重程度並不是同一個等級。如果你有喉嚨痛、肌肉酸痛、身體乏力的症狀，千萬不要諱疾忌醫，給醫生專業診斷，保護自己也能守護周遭的親朋好友。"
-            )
-            line_bot_api.reply_message(event.reply_token,message)
+            message = covid19_recommend
+            line_bot_api.reply_message(event.reply_token, FlexSendMessage('@防疫商品推薦',message))
+
         except:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
-            
-    elif mtext == '@流感商品推薦':
-        influenza_Products(event)
-        
-    elif mtext == '@什麼是腸病毒':
-        try:
-            message = TextSendMessage(  
-                text = "腸病毒雖好發在小朋友身上，但是大人也不得輕忽，病毒種類繁多，對身體造成的健康影響不容小覷。最好的防範就是落實個人衛生保健，勤洗手、不要隨處觸碰眼、口、鼻，這樣才能有效遏止唷！"
-            )
-            line_bot_api.reply_message(event.reply_token,message)
-        except:
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
-      
-        
-    elif mtext == "@腸病毒商品推薦":
-        Enterovirus_Products(event)
+                 
         
     elif mtext == "@酒精類":
         try:
@@ -840,7 +746,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
             
     elif mtext == '@酒精': 
-        alcohol = product()[7]
+        alcohol = get_data("alcohol")
         try:
             message = [
                 TemplateSendMessage(
@@ -862,7 +768,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
             
     elif mtext == '@酒精濕紙巾': 
-        alcohol_wipes = product()[8]
+        alcohol_wipes = get_data("alcohol_wipes")
         try:
             message = [
                 TemplateSendMessage(
@@ -884,7 +790,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
             
     elif mtext == '@乾洗手': 
-        Dry_hands = product()[9]
+        Dry_hands = get_data("Dry_hands")
         try:
             message = [
                 TemplateSendMessage(
@@ -893,7 +799,7 @@ def handle_message(event):
                     title='乾洗手推薦商品',
                     text='請選擇：',
                     actions=[
-                              URITemplateAction(label = Dry_hands["product_name"][0], uri = Dry_hands.url[0]),
+                              URITemplateAction(label = Dry_hands["product_name"][1], uri = Dry_hands.url[0]),
                               URITemplateAction(label = Dry_hands["product_name"][1], uri = Dry_hands.url[1]),
                               URITemplateAction(label = Dry_hands["product_name"][2], uri = Dry_hands.url[2]),
                               URITemplateAction(label = Dry_hands["product_name"][3], uri = Dry_hands.url[3])
@@ -907,7 +813,7 @@ def handle_message(event):
             
             
     elif mtext == '@不織布口罩': 
-        mask_il = product()[10]
+        mask_il = get_data("mask_il")
         try:
             message = [
                 TemplateSendMessage(
@@ -929,7 +835,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
             
     elif mtext == '@漂白水': 
-        bleach = product()[11]
+        bleach = get_data("bleach")
         try:
             message = [
                 TemplateSendMessage(
@@ -952,7 +858,7 @@ def handle_message(event):
             
             
     elif mtext == '@肥皂': 
-        soap = product()[12]
+        soap = get_data("soap")
         try:
             message = [
                 TemplateSendMessage(
@@ -983,7 +889,7 @@ def handle_message(event):
     elif mtext == '@請點選您要看的小百科':
         try:
             # message = json.load(open('C:/Users/user/OneDrive/桌面/Air/code/Line_Bot/weather.txt','r',encoding='utf-8'))
-            message = book_json
+            message = Encyclopedia_json
             line_bot_api.reply_message(event.reply_token, FlexSendMessage('@請點選您要看的小百科',message))
 
 
@@ -1002,89 +908,38 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,message)
         except:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+            
+    
+    elif mtext == '奕璋自我介紹':
+        try:
+            message = angel
+            line_bot_api.reply_message(event.reply_token, FlexSendMessage('奕璋自我介紹',message))
+
+        except:
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
 
     
 # =============================================================================
 # function        
-# =============================================================================
-### 各縣市 COVID-19 確診人數
-def COVID_19_num(event):  #按鈕樣版
-    try:
-        message = TemplateSendMessage(
-            alt_text='各縣市疫情現況',
-            ## 最多 4 個按鈕
-            template=ButtonsTemplate(
-                thumbnail_image_url='https://img.onl/jfFt7a',  #顯示的圖片
-                title='各縣市疫情現況',  #主標題
-                text='請選擇：',  #副標題
-                actions=[
-                    MessageTemplateAction(  #顯示文字計息
-                        label='北部地區',
-                        text='@北部地區'
-                    ),
-                    MessageTemplateAction(  #顯示文字計息
-                        label='中部地區',
-                        text='@中部地區'
-                    ),
-                    MessageTemplateAction(  #顯示文字計息
-                        label='南部地區',
-                        text='@南部地區'
-                    ),
-                    MessageTemplateAction(  #顯示文字計息
-                        label='東部地區',
-                        text='@東部地區'
-                    ),
-                ]
-            )
-        )
-        line_bot_api.reply_message(event.reply_token, message)
-    except:
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
+# =============================================================================       
         
-        
+# def covid19title():
+#     url = 'https://covid-19.nchc.org.tw/api/covid19?CK=covid-19@nchc.org.tw&querydata=4001&limited=TWN'
+#     res = requests.get(url)
+#     date = res.json()[0]['a04']
+#     total = res.json()[0]['a05']
+#     today = res.json()[0]['a06']
+#     return f'$公告日期：{date}\n       確診人數：{today}人\n       累計確診人數：{total}人'
+
 def covid19title():
     url = 'https://covid-19.nchc.org.tw/api/covid19?CK=covid-19@nchc.org.tw&querydata=4001&limited=TWN'
     res = requests.get(url)
     date = res.json()[0]['a04']
-    total = res.json()[0]['a05']
     today = res.json()[0]['a06']
-    return f'$公告日期：{date}\n       確診人數：{today}人\n       累計確診人數：{total}人'
+    die = res.json()[0]["a09"]
+    return date, today, die
         
-        
-### COVID-19 商品推薦
-def COVID_19_Products(event):  #按鈕樣版
-    try:
-        message = TemplateSendMessage(
-            alt_text='按鈕樣板',
-            ## 最多 4 個按鈕
-            template=ButtonsTemplate(
-                thumbnail_image_url='https://img.onl/jfFt7a',  #顯示的圖片
-                title='防疫商品推薦',  #主標題
-                text='請選擇：',  #副標題
-                actions=[
-                    MessageTemplateAction(  #顯示文字計息
-                        label='酒精類',
-                        text='@酒精類'
-                    ),
-                    MessageTemplateAction(  #顯示文字計息
-                        label='乾洗手',
-                        text='@乾洗手'
-                    ),
-                    MessageTemplateAction(  #顯示文字計息
-                        label='不織布口罩',
-                        text='@不織布口罩'
-                    ),
-                    MessageTemplateAction(  #顯示文字計息
-                        label='安全護目鏡',
-                        text='@安全護目鏡'
-                    ),
-                ]
-            )
-        )
-        line_bot_api.reply_message(event.reply_token, message)
-    except:
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
-        
+              
 ### 流感商品推薦
 def influenza_Products(event):
     try:
@@ -1152,199 +1007,28 @@ def Enterovirus_Products(event):
     except:
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))  
         
-  
-### 空氣品質好物推薦        
-def Products_Featured(event):  #轉盤樣板
-    try:
-        message = TemplateSendMessage(
-            alt_text='轉盤樣板',
-            template=CarouselTemplate(
-                columns=[
-                    CarouselColumn(
-                        title='PM2.5 推薦商品',
-                        text='請選擇品項',
-                        actions=[
-                            MessageTemplateAction(
-                                label='PM2.5 空氣清淨機',
-                                text='@PM2.5 空氣清淨機'
-                            ),
-                            MessageTemplateAction(
-                                label='活性碳口罩',
-                                text='@活性碳口罩'
-                            )
-                        ]
-                    ),
-                    CarouselColumn(
-                        title='CO 推薦商品',
-                        text='請選擇品項',
-                        actions=[
-                            MessageTemplateAction(
-                                label='一氧化碳偵測儀',
-                                text='@一氧化碳偵測儀'
-                            ),
-                            MessageTemplateAction(
-                                label='瓦斯警報器',
-                                text='@瓦斯警報器'
-                            )
-                        ]
-                    ),
-                    CarouselColumn(
-                        title='SO2 推薦商品',
-                        text='請選擇品項',
-                        actions=[
-                             MessageTemplateAction(
-                                label='安全護目鏡',
-                                text='@安全護目鏡'
-                            ),
-                            MessageTemplateAction(
-                                label='口罩',
-                                text='@口罩'
-                            )
-                        ]
-                    ),
-                    CarouselColumn(
-                        title='O3 推薦商品',
-                        text='請選擇品項',
-                        actions=[
-                            MessageTemplateAction(
-                                label='活性碳口罩',
-                                text='@活性碳口罩'
-                            ),
-                            MessageTemplateAction(
-                                label='活性碳空氣清淨機',
-                                text='@活性碳空氣清淨機'
-                            )
-                        ]
-                    ),
-                    CarouselColumn(
-                        title='NO2 推薦商品',
-                        text='請選擇品項',
-                        actions=[
-                            MessageTemplateAction(
-                                label='安全護目鏡',
-                                text='@安全護目鏡'
-                            ),
-                            MessageTemplateAction(
-                                label='口罩',
-                                text='@口罩'
-                            )
-                        ]
-                    ),
-                ]
-            )
-        )
-        line_bot_api.reply_message(event.reply_token,message)
-    except:
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
 
-# =============================================================================
-def product():
-    import pandas as pd
-    import pymysql
+        
+def get_data(table):
+    config = {"host" : "mqtt2.tibame.cloud", "port" : 3306, "user" : "hsuan",
+          "passwd" : "hsuan", "db" : "prd", "charset" : "utf8mb4"}
 
-    # =============================================================================
-    # 取得資料
-    # =============================================================================
-    def get_data(table):
-        config = {"host" : "mqtt2.tibame.cloud", "port" : 3306, "user" : "hsuan",
-              "passwd" : "hsuan", "db" : "prd", "charset" : "utf8mb4"}
+    conn = pymysql.connect(**config) ## **會將字典型態轉變(kwargs)
+    cursor = conn.cursor()
     
-        conn = pymysql.connect(**config) ## **會將字典型態轉變(kwargs)
-        cursor = conn.cursor()
-        
-        SQL = "select * from {}".format(table)
-        print('資料筆數 :',cursor.execute(SQL))
-        
-        results = cursor.fetchall()
-        data = pd.DataFrame(results, columns = ["class", "name", "price", "image", "url"])
-        
-        # 關閉連線
-        cursor.close()
-        conn.close()
-        
-        return data
+    SQL = "select * from {}".format(table)
+    print('資料筆數 :',cursor.execute(SQL))
     
-    df = get_data("prdinfo")
-    df =df[df["name"].str.startswith("【")].reset_index(drop = True)
+    results = cursor.fetchall()
+    data = pd.DataFrame(results, columns = ["class", "name", "price", "image", "url", "new_url", "product_name"])
     
-    # =============================================================================
-    # 處理網址裡的空值問題
-    # =============================================================================
-    new_url = []
-    for i in df["url"]:
-        url = i.replace(" ", "%20")
-        new_url.append(url)
-        
-    df["new_url"] = new_url
+    # 關閉連線
+    cursor.close()
+    conn.close()
     
-    # =============================================================================
-    # # Line Bot 要呈現的商品名稱
-    # =============================================================================
-    product_name = []
-    for j, i in enumerate(df["name"]):
-        string = i.split("】")[0]
-        split_strings = string.split()
-        split_strings.insert(len(split_strings), "】")
-        split_strings.insert(len(split_strings) + 1, " 價格：")
-        split_strings.insert(len(split_strings) + 2, "{}".format(df.price[j]))
-        split_strings.insert(len(split_strings) + 3, "元")
-        final_string = ''.join(split_strings)
-        if "│" in final_string:
-            change = list(final_string)
-            change[5:10] = ""
-            final_string = "".join(change)
-            
-        elif "’" in final_string:
-            final_string = final_string.replace("Dr.Bronner’s", "")
-        product_name.append(final_string)
-        
-    df["product_name"] = product_name
+    return data
     
-    # =============================================================================
-    # # 將所有 class 切開
-    # =============================================================================
-    ### 1. 安全護目鏡
-    glass = df[df["class"] == "安全護目鏡"].reset_index(drop = True)
-    
-    ### 2. 活性碳口罩
-    mask = df[df["class"] == "活性碳口罩"].reset_index(drop = True)
-    
-    ### 3. 活性碳空氣清淨機
-    Air_clear = df[df["class"] == "活性碳空氣清淨機"].reset_index(drop = True)
-    
-    ### 4. 防毒面具 (只有一個商品)
-    Gas_mask = df[df["class"] == "3M 6200防毒面具"].reset_index(drop = True)
-    
-    ### 5. 一氧化碳偵測儀
-    CO_Detector = df[df["class"] == "一氧化碳偵測儀"].reset_index(drop = True)
-    
-    ### 6. 瓦斯警報器
-    Gas_alarm = df[df["class"] == "瓦斯警報器"].reset_index(drop = True)
 
-    ### 7. PM2.5 空氣清淨機
-    PM25_clean = df[df["class"] == "PM2.5 空氣清淨機"].reset_index(drop = True)
-    
-    ### 8. 酒精
-    alcohol = df[df["class"] == "酒精"].reset_index(drop = True)
-    
-    ### 9. 酒精濕紙巾
-    alcohol_wipes = df[df["class"] == "酒精濕紙巾"].reset_index(drop = True)
-    
-    ### 10. 乾洗手
-    Dry_hands = df[df["class"] == "乾洗手"].reset_index(drop = True)
-    
-    ### 11. 不織布口罩
-    mask_il = df[df["class"] == "不織布口罩"].reset_index(drop = True)
-    
-    ### 12. 漂白水
-    bleach = df[df["class"] == "漂白水"].reset_index(drop = True)
-    
-    ### 13. 肥皂
-    soap = df[df["class"] == "肥皂"].reset_index(drop = True)
-
-    return glass, mask, Air_clear, Gas_mask, CO_Detector, Gas_alarm, PM25_clean, alcohol, alcohol_wipes, Dry_hands, mask_il, bleach, soap
-        
-   
 ### 小百科 ButtonsTemplate
 def Encyclopedia(event):  #按鈕樣版
     try:
@@ -1405,68 +1089,145 @@ def food():
         
     return f'今天吃什麼：{good}'
 
+# =============================================================================
+# Flex Message JSON
+# =============================================================================
+
 weather_json = {
-      "type": "bubble",
-      "size": "kilo",
-      "body": {
+  "type": "bubble",
+  "size": "mega",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
         "type": "box",
-        "layout": "vertical",
+        "layout": "baseline",
         "contents": [
           {
             "type": "text",
             "text": "各區天氣預報",
+            "size": "xl",
             "weight": "bold",
-            "size": "xl"
+            "flex": 0
           },
           {
-            "type": "box",
-            "layout": "baseline",
-            "margin": "md",
-            "contents": [
-              {
-                "type": "text",
-                "text": "請選擇您想查看的區域",
-                "size": "sm",
-                "color": "#828282",
-                "margin": "md",
-                "flex": 0
-              }
-            ]
+            "type": "text",
+            "text": " ",
+            "flex": 0
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn4.iconfinder.com/data/icons/thanksgiving-2020-filled-2/64/thanksgiving-78-128.png",
+            "size": "xxl",
+            "offsetStart": "xs",
+            "offsetTop": "sm"
           }
         ]
       },
-      "footer": {
+      {
         "type": "box",
-        "layout": "vertical",
-        "spacing": "sm",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "text",
+            "text": "請選擇您想查看的區域",
+            "margin": "md",
+            "size": "sm",
+            "color": "#828282"
+          }
+        ]
+      }
+    ],
+    "spacing": "none",
+    "borderWidth": "none",
+    "paddingAll": "md",
+    "paddingTop": "lg",
+    "paddingStart": "lg",
+    "paddingEnd": "md"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [],
+        "margin": "md"
+      },
+      {
+        "type": "text",
+        "text": " ",
+        "size": "5px"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
         "contents": [
           {
             "type": "button",
-            "style": "link",
-            "height": "sm",
             "action": {
               "type": "uri",
               "label": "桃園區",
               "uri": "https://google.com"
-            }
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4b73a5",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8,
+            "offsetBottom": "none"
+          },
+          {
+            "type": "text",
+            "text": " ",
+            "flex": 1
           },
           {
             "type": "button",
-            "style": "link",
-            "height": "sm",
             "action": {
               "type": "uri",
               "label": "中壢區",
               "uri": "https://google.com"
-            }
-          },
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#539cd8",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          }
+        ],
+        "cornerRadius": "none",
+        "borderWidth": "bold",
+        "offsetTop": "sm",
+        "paddingAll": "none",
+        "spacing": "none"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
           {
             "type": "button",
             "action": {
               "type": "uri",
-              "uri": "https://google.com",
-              "label": "大園區"
-            }
+              "label": "大園區",
+              "uri": "https://google.com"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#539cd8",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          },
+          {
+            "type": "text",
+            "text": " ",
+            "flex": 1
           },
           {
             "type": "button",
@@ -1474,15 +1235,42 @@ weather_json = {
               "type": "uri",
               "label": "觀音區",
               "uri": "https://google.com"
-            }
-          },
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4b73a5",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          }
+        ],
+        "cornerRadius": "none",
+        "borderWidth": "bold",
+        "offsetTop": "md",
+        "paddingAll": "none"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
           {
             "type": "button",
             "action": {
               "type": "uri",
               "label": "龍潭區",
               "uri": "https://google.com"
-            }
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4b73a5",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          },
+          {
+            "type": "text",
+            "text": " ",
+            "flex": 1
           },
           {
             "type": "button",
@@ -1490,34 +1278,48 @@ weather_json = {
               "type": "uri",
               "label": "平鎮區",
               "uri": "https://google.com"
-            }
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#539cd8",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
           }
         ],
-        "flex": 0
-      },
-      "styles": {
-        "body": {
-          "backgroundColor": "#FFE4B5"
-        },
-        "footer": {
-          "backgroundColor": "#FFF8DC"
-        }
+        "cornerRadius": "none",
+        "borderWidth": "bold",
+        "offsetTop": "lg",
+        "paddingAll": "none",
+        "spacing": "none"
       }
+    ],
+    "offsetBottom": "md",
+    "spacing": "none"
+  },
+  "styles": {
+    "header": {
+      "backgroundColor": "#FFE4B5"
+    },
+    "hero": {
+      "backgroundColor": "#FFE4C4"
+    },
+    "body": {
+      "backgroundColor": "#FFF8DC"
+    },
+    "footer": {
+      "backgroundColor": "#FFE4B5"
     }
+  }
+}
 
 Air_json = {
   "type": "bubble",
   "size": "kilo",
-  "body": {
+  "header": {
     "type": "box",
     "layout": "vertical",
     "contents": [
-      {
-        "type": "text",
-        "text": "空氣品質相關資訊",
-        "weight": "bold",
-        "size": "xl"
-      },
       {
         "type": "box",
         "layout": "baseline",
@@ -1525,20 +1327,27 @@ Air_json = {
         "contents": [
           {
             "type": "text",
-            "text": "請選擇：",
-            "size": "sm",
-            "color": "#828282",
-            "margin": "md",
-            "flex": 0
+            "text": "空氣品質相關資訊",
+            "size": "xl",
+            "flex": 0,
+            "weight": "bold",
+            "offsetStart": "md"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/world-pollution-2/512/dust-pollution-city-smoke-air-pm2.5-smog-512.png",
+            "size": "3xl",
+            "margin": "sm",
+            "offsetTop": "xs",
+            "offsetStart": "md"
           }
         ]
       }
     ]
   },
-  "footer": {
+  "body": {
     "type": "box",
     "layout": "vertical",
-    "spacing": "sm",
     "contents": [
       {
         "type": "button",
@@ -1556,7 +1365,7 @@ Air_json = {
         "height": "sm",
         "action": {
           "type": "message",
-          "label": "認識指標",
+          "label": "認識空氣品質指標",
           "text": "@認識空氣品質指標"
         }
       },
@@ -1568,12 +1377,17 @@ Air_json = {
           "text": "@今日好物推薦"
         }
       }
-    ],
-    "flex": 0
+    ]
   },
   "styles": {
-    "body": {
+    "header": {
+      "backgroundColor": "#66CDAA"
+    },
+    "hero": {
       "backgroundColor": "#FFE4B5"
+    },
+    "body": {
+      "backgroundColor": "#E9F5DB"
     },
     "footer": {
       "backgroundColor": "#FFF8DC"
@@ -1639,7 +1453,7 @@ Air_var_json = {
       },
       "styles": {
         "body": {
-          "backgroundColor": "#EEDFCC"
+          "backgroundColor": "#B4EBCA"
         }
       }
     },
@@ -1687,7 +1501,7 @@ Air_var_json = {
       },
       "styles": {
         "body": {
-          "backgroundColor": "#EEDFCC"
+          "backgroundColor": "#E9F5DB"
         }
       }
     },
@@ -1740,7 +1554,7 @@ Air_var_json = {
       },
       "styles": {
         "body": {
-          "backgroundColor": "#EEDFCC"
+          "backgroundColor": "#B4EBCA"
         }
       }
     },
@@ -1788,7 +1602,7 @@ Air_var_json = {
       },
       "styles": {
         "body": {
-          "backgroundColor": "#EEDFCC"
+          "backgroundColor": "#E9F5DB"
         }
       }
     },
@@ -1841,26 +1655,686 @@ Air_var_json = {
       },
       "styles": {
         "body": {
-          "backgroundColor": "#EEDFCC"
+          "backgroundColor": "#B4EBCA"
         }
       }
     }
   ]
 }
 
-book_json = {
+Air_recommend = {
+  "type": "carousel",
+  "contents": [
+    {
+      "type": "bubble",
+      "size": "kilo",
+      "header": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "margin": "md",
+            "contents": [
+              {
+                "type": "icon",
+                "size": "xxl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/016.png?v=1",
+                "margin": "none",
+                "offsetTop": "sm"
+              },
+              {
+                "type": "icon",
+                "size": "xxl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/013.png?v=1",
+                "offsetTop": "sm"
+              },
+              {
+                "type": "icon",
+                "size": "xxl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/054.png?v=1",
+                "offsetTop": "sm"
+              },
+              {
+                "type": "icon",
+                "size": "xl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/094.png?v=1",
+                "offsetTop": "sm"
+              },
+              {
+                "type": "icon",
+                "size": "xxl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/057.png?v=1",
+                "offsetTop": "sm"
+              },
+              {
+                "type": "text",
+                "text": "推薦商品",
+                "size": "xl",
+                "flex": 0,
+                "weight": "bold"
+              }
+            ]
+          }
+        ]
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "message",
+              "label": "PM2.5 空氣清淨機",
+              "text": "@PM2.5 空氣清淨機"
+            }
+          },
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "message",
+              "label": "活性碳口罩",
+              "text": "@活性碳口罩"
+            }
+          }
+        ]
+      },
+      "styles": {
+        "header": {
+          "backgroundColor": "#66CDAA"
+        },
+        "hero": {
+          "backgroundColor": "#FFE4B5"
+        },
+        "body": {
+          "backgroundColor": "#E9F5DB"
+        },
+        "footer": {
+          "backgroundColor": "#FFF8DC"
+        }
+      }
+    },
+    {
+      "type": "bubble",
+      "size": "kilo",
+      "header": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "margin": "md",
+            "contents": [
+              {
+                "type": "icon",
+                "size": "xxl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/003.png?v=1",
+                "offsetTop": "sm",
+                "margin": "none"
+              },
+              {
+                "type": "icon",
+                "size": "xxl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/015.png?v=1",
+                "offsetTop": "sm",
+                "margin": "none"
+              },
+              {
+                "type": "text",
+                "text": "推薦商品",
+                "size": "xl",
+                "flex": 0,
+                "weight": "bold",
+                "offsetStart": "md"
+              }
+            ]
+          }
+        ]
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "message",
+              "label": "一氧化碳偵測儀",
+              "text": "@一氧化碳偵測儀"
+            }
+          },
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "message",
+              "label": "瓦斯警報器",
+              "text": "@瓦斯警報器"
+            }
+          }
+        ]
+      },
+      "styles": {
+        "header": {
+          "backgroundColor": "#66CDAA"
+        },
+        "hero": {
+          "backgroundColor": "#FFE4B5"
+        },
+        "body": {
+          "backgroundColor": "#E9F5DB"
+        },
+        "footer": {
+          "backgroundColor": "#FFF8DC"
+        }
+      }
+    },
+    {
+      "type": "bubble",
+      "size": "kilo",
+      "header": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "margin": "md",
+            "contents": [
+              {
+                "type": "icon",
+                "size": "xxl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/019.png?v=1",
+                "offsetTop": "sm"
+              },
+              {
+                "type": "icon",
+                "size": "xxl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/015.png?v=1",
+                "offsetTop": "sm"
+              },
+              {
+                "type": "icon",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/054.png?v=1",
+                "size": "xxl",
+                "offsetTop": "sm"
+              },
+              {
+                "type": "text",
+                "text": "推薦商品",
+                "size": "xl",
+                "flex": 0,
+                "weight": "bold",
+                "offsetStart": "md"
+              }
+            ]
+          }
+        ]
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "message",
+              "label": "安全護目鏡",
+              "text": "@安全護目鏡"
+            }
+          },
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "message",
+              "label": "口罩",
+              "text": "@口罩"
+            }
+          }
+        ]
+      },
+      "styles": {
+        "header": {
+          "backgroundColor": "#66CDAA"
+        },
+        "hero": {
+          "backgroundColor": "#FFE4B5"
+        },
+        "body": {
+          "backgroundColor": "#E9F5DB"
+        },
+        "footer": {
+          "backgroundColor": "#FFF8DC"
+        }
+      }
+    },
+    {
+      "type": "bubble",
+      "size": "kilo",
+      "header": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "margin": "md",
+            "contents": [
+              {
+                "type": "icon",
+                "size": "xxl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/015.png?v=1",
+                "margin": "none",
+                "offsetTop": "sm"
+              },
+              {
+                "type": "icon",
+                "size": "xxl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/055.png?v=1",
+                "offsetTop": "sm"
+              },
+              {
+                "type": "text",
+                "text": "推薦商品",
+                "size": "xl",
+                "flex": 0,
+                "weight": "bold"
+              }
+            ]
+          }
+        ]
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "message",
+              "label": "PM2.5 空氣清淨機",
+              "text": "@PM2.5 空氣清淨機"
+            }
+          },
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "message",
+              "label": "活性碳口罩",
+              "text": "@活性碳口罩"
+            }
+          }
+        ]
+      },
+      "styles": {
+        "header": {
+          "backgroundColor": "#66CDAA"
+        },
+        "hero": {
+          "backgroundColor": "#FFE4B5"
+        },
+        "body": {
+          "backgroundColor": "#E9F5DB"
+        },
+        "footer": {
+          "backgroundColor": "#FFF8DC"
+        }
+      }
+    },
+    {
+      "type": "bubble",
+      "size": "kilo",
+      "header": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "margin": "md",
+            "contents": [
+              {
+                "type": "icon",
+                "size": "xxl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/014.png?v=1",
+                "margin": "none",
+                "offsetTop": "sm"
+              },
+              {
+                "type": "icon",
+                "size": "xxl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/015.png?v=1",
+                "margin": "none",
+                "offsetTop": "sm"
+              },
+              {
+                "type": "icon",
+                "size": "xxl",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21a8c040ab15980c9b43f/android/054.png?v=1",
+                "margin": "none",
+                "offsetTop": "sm"
+              },
+              {
+                "type": "text",
+                "text": "推薦商品",
+                "size": "xl",
+                "flex": 0,
+                "weight": "bold",
+                "offsetStart": "md"
+              }
+            ]
+          }
+        ]
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "message",
+              "label": "安全護目鏡",
+              "text": "@安全護目鏡"
+            }
+          },
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "message",
+              "label": "口罩",
+              "text": "@口罩"
+            }
+          }
+        ]
+      },
+      "styles": {
+        "header": {
+          "backgroundColor": "#66CDAA"
+        },
+        "hero": {
+          "backgroundColor": "#FFE4B5"
+        },
+        "body": {
+          "backgroundColor": "#E9F5DB"
+        },
+        "footer": {
+          "backgroundColor": "#FFF8DC"
+        }
+      }
+    }
+  ]
+}
+
+def products(prdClass, df):
+    product = {
+      "type": "bubble",
+      "size": "kilo",
+      "header": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "margin": "md",
+            "contents": [
+              {
+                "type": "text",
+                "text": prdClass,
+                "size": "xl",
+                "flex": 0,
+                "weight": "bold",
+                "offsetStart": "md"
+              }
+            ]
+          }
+        ]
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "uri",
+              "label": df["product_name"][0],
+              "uri": df["new_url"][0]
+            }
+          },
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "uri",
+              "label": df["product_name"][1],
+              "uri": df["new_url"][1]
+            }
+          },
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "uri",
+              "label": df["product_name"][2],
+              "uri": df["new_url"][2]
+            }
+          },
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "uri",
+              "label": df["product_name"][3],
+              "uri": df["new_url"][3]
+            }
+          }
+        ]
+      },
+      "styles": {
+        "header": {
+          "backgroundColor": "#66CDAA"
+        },
+        "hero": {
+          "backgroundColor": "#FFE4B5"
+        },
+        "body": {
+          "backgroundColor": "#E9F5DB"
+        },
+        "footer": {
+          "backgroundColor": "#FFF8DC"
+        }
+      }
+    }
+    
+    return product
+
+def station(disMinName, disMinDistance):
+    station = {
+          "type": "bubble",
+          "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "contents": [
+                  {
+                    "type": "span",
+                    "text": "距離"
+                  },
+                  {
+                    "type": "span",
+                    "text": "{}".format(disMinName),
+                    "color": "#4F94CD",
+                    "weight": "bold",
+                    "size": "lg"
+                  },
+                  {
+                    "type": "span",
+                    "text": "最近，距離 "
+                  },
+                  {
+                    "type": "span",
+                    "text": "{}".format(disMinDistance),
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "span",
+                    "text": " 公里，接著將為您提供最近測站相關資訊"
+                  }
+                ],
+                "wrap": True
+              }
+            ]
+          },
+          "styles": {
+            "body": {
+              "backgroundColor": "#FFF8DC"
+            }
+          }
+        }
+    return station
+
+def product_json():
+    product_json = {
+          "type": "bubble",
+          "header": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "PM2.5 空氣清淨機",
+                "size": "xl",
+                "offsetTop": "none",
+                "offsetStart": "none",
+                "offsetEnd": "none",
+                "margin": "none",
+                "weight": "bold",
+                "offsetBottom": "none"
+              }
+            ],
+            "borderWidth": "none",
+            "paddingEnd": "none",
+            "background": {
+              "type": "linearGradient",
+              "angle": "0deg",
+              "startColor": "#A2CD5A",
+              "endColor": "#ffffff"
+            },
+            "height": "60px",
+            "margin": "none",
+            "spacing": "none"
+          },
+          "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "button",
+                "action": {
+                  "type": "uri",
+                  "label": "product[new_url][0]",
+                  "uri": "https:/google.com"
+                },
+                "margin": "none",
+                "style": "link"
+              },
+              {
+                "type": "button",
+                "action": {
+                  "type": "uri",
+                  "uri": "https:/google.com",
+                  "label": "product[\"new_url\"][1]"
+                }
+              },
+              {
+                "type": "button",
+                "action": {
+                  "type": "uri",
+                  "uri": "https:/google.com",
+                  "label": "product[\"new_url\"][2]"
+                }
+              },
+              {
+                "type": "button",
+                "action": {
+                  "type": "uri",
+                  "uri": "https:/google.com",
+                  "label": "product[\"new_url\"][3]"
+                }
+              },
+              {
+                "type": "button",
+                "action": {
+                  "type": "uri",
+                  "uri": "https:/google.com",
+                  "label": "product[\"new_url\"][4]"
+                }
+              }
+            ],
+            "spacing": "none",
+            "margin": "none"
+          }
+        }
+    return product_json
+
+covid19_json = {
   "type": "bubble",
+  "size": "giga",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "COVID-19 趨勢圖",
+        "size": "xl",
+        "weight": "bold"
+      }
+    ],
+    "spacing": "none",
+    "borderWidth": "none",
+    "paddingAll": "md",
+    "paddingTop": "lg",
+    "paddingStart": "lg",
+    "paddingEnd": "md"
+  },
   "hero": {
     "type": "image",
-    "url": "https://i.imgur.com/OTzWaSn.png",
+    "url": "https://img.onl/lIcW63",
     "size": "full",
-    "aspectRatio": "20:13",
-    "aspectMode": "cover",
-    "action": {
-      "type": "uri",
-      "uri": "http://linecorp.com/"
-    },
-    "margin": "none"
+    "aspectMode": "fit",
+    "aspectRatio": "18:11"
   },
   "body": {
     "type": "box",
@@ -1868,67 +2342,1107 @@ book_json = {
     "contents": [
       {
         "type": "text",
-        "text": "小百科",
+        "text": "COVID-19 簡介：",
         "weight": "bold",
-        "size": "xl"
+        "style": "italic",
+        "decoration": "underline",
+        "color": "#104E8B",
+        "size": "lg"
+      },
+      {
+        "type": "text",
+        "text": " ",
+        "size": "5px"
+      },
+      {
+        "type": "text",
+        "text": "COVID-19 雖然致死率不高，但傳染力極強，稍有不慎就容易感染，進而造成社會恐慌與醫療系統崩潰。在疫情尚未完全清零的情況下，在外仍須配戴好口罩、落實個人衛生保健，並配合政府防疫要求。",
+        "wrap": True
+      },
+      {
+        "type": "text",
+        "text": " ",
+        "size": "12px"
+      },
+      {
+        "type": "text",
+        "text": "更多資訊：",
+        "color": "#104E8B",
+        "size": "lg",
+        "weight": "bold",
+        "style": "italic",
+        "decoration": "underline"
+      },
+      {
+        "type": "text",
+        "text": " ",
+        "size": "10px"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "防疫商品推薦",
+          "text": "@防疫商品推薦"
+        },
+        "style": "primary",
+        "color": "#4F94CD"
+      },
+      {
+        "type": "separator",
+        "margin": "md",
+        "color": "#E2EBFD"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "各縣市疫情狀況",
+          "text": "@各縣市疫情"
+        },
+        "color": "#4F94CD",
+        "style": "primary"
       }
     ]
   },
+  "styles": {
+    "header": {
+      "backgroundColor": "#A4D3EE"
+    },
+    "hero": {
+      "backgroundColor": "#A4D3EE"
+    },
+    "body": {
+      "backgroundColor": "#A4D3EE"
+    },
+    "footer": {
+      "backgroundColor": "#FFE4B5"
+    }
+  }
+}
+
+covid19_recommend = {
+  "type": "bubble",
+  "size": "kilo",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "margin": "md",
+        "contents": [
+          {
+            "type": "text",
+            "text": "防疫商品推薦",
+            "size": "xl",
+            "margin": "30px",
+            "flex": 0,
+            "weight": "bold"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/social-media-1-filled-outline-77-background/468/Layer4-512.png",
+            "size": "3xl",
+            "margin": "md",
+            "offsetTop": "sm"
+          }
+        ]
+      }
+    ],
+    "margin": "none"
+  },
   "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "1px",
+    "contents": [
+      {
+        "type": "button",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "酒精類",
+          "text": "@酒精類"
+        },
+        "color": "#27408B",
+        "margin": "none",
+        "gravity": "center"
+      },
+      {
+        "type": "button",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "乾洗手",
+          "text": "@乾洗手"
+        },
+        "color": "#27408B"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "不織布口罩",
+          "text": "@不織布口罩"
+        },
+        "color": "#27408B"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "安全護目鏡",
+          "text": "@安全護目鏡"
+        },
+        "color": "#27408B"
+      }
+    ],
+    "flex": 0,
+    "margin": "none",
+    "borderWidth": "none",
+    "cornerRadius": "none",
+    "alignItems": "center",
+    "justifyContent": "space-around"
+  },
+  "styles": {
+    "body": {
+      "backgroundColor": "#7FA5F8"
+    },
+    "footer": {
+      "backgroundColor": "#E2EBFD"
+    }
+  }
+}
+
+covid19_place = {
+  "type": "bubble",
+  "size": "kilo",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "margin": "md",
+        "contents": [
+          {
+            "type": "text",
+            "text": "選擇您想查看的地點",
+            "size": "19px",
+            "flex": 0,
+            "weight": "bold"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/search-engine-optimisation-seo/44/seo_icons-26-512.png",
+            "size": "3xl",
+            "margin": "sm",
+            "offsetTop": "sm"
+          }
+        ]
+      }
+    ],
+    "margin": "none"
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "1px",
+    "contents": [
+      {
+        "type": "button",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "全台",
+          "text": "@國內疫情"
+        },
+        "color": "#27408B",
+        "margin": "none",
+        "gravity": "center"
+      },
+      {
+        "type": "button",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "桃園",
+          "text": "@桃園疫情"
+        },
+        "color": "#27408B"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "其他縣市",
+          "text": "@其他縣市"
+        },
+        "color": "#27408B"
+      }
+    ],
+    "flex": 0,
+    "margin": "none",
+    "borderWidth": "none",
+    "cornerRadius": "none",
+    "alignItems": "center",
+    "justifyContent": "space-around"
+  },
+  "styles": {
+    "body": {
+      "backgroundColor": "#7FA5F8"
+    },
+    "footer": {
+      "backgroundColor": "#E2EBFD"
+    }
+  }
+}
+
+covid19_county = {
+  "type": "bubble",
+  "size": "kilo",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "margin": "md",
+        "contents": [
+          {
+            "type": "text",
+            "text": "各地區疫情現況",
+            "size": "19px",
+            "flex": 0,
+            "weight": "bold"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn2.iconfinder.com/data/icons/coronavirus-77/512/coronavirus-covid-12-512.png",
+            "size": "3xl",
+            "margin": "sm",
+            "offsetTop": "sm"
+          }
+        ]
+      }
+    ],
+    "margin": "none"
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "1px",
+    "contents": [
+      {
+        "type": "button",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "北部地區",
+          "text": "@北部地區"
+        },
+        "color": "#27408B",
+        "margin": "none",
+        "gravity": "center"
+      },
+      {
+        "type": "button",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "中部地區",
+          "text": "@中部地區"
+        },
+        "color": "#27408B"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "南部地區",
+          "text": "@南部地區"
+        },
+        "color": "#27408B"
+      },
+      {
+        "type": "button",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "東部地區",
+          "text": "@東部地區"
+        },
+        "color": "#27408B",
+        "margin": "none",
+        "gravity": "center"
+      }
+    ],
+    "flex": 0,
+    "margin": "none",
+    "borderWidth": "none",
+    "cornerRadius": "none",
+    "alignItems": "center",
+    "justifyContent": "space-around"
+  },
+  "styles": {
+    "body": {
+      "backgroundColor": "#7FA5F8"
+    },
+    "footer": {
+      "backgroundColor": "#E2EBFD"
+    }
+  }
+}
+
+announcement = {
+  "type": "bubble",
+  "size": "mega",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "3xl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "3xl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "3xl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "3xl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "3xl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "3xl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "3xl"
+          }
+        ]
+      }
+    ]
+  },
+  "styles": {
+    "body": {
+      "backgroundColor": "#A4D3EE"
+    }
+  }
+}
+
+covid19_today = {
+  "type": "bubble",
+  "size": "mega",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "icon",
+            "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+            "offsetTop": "sm",
+            "size": "xl"
+          },
+          {
+            "type": "text",
+            "text": "日期：{}".format(covid19title()[0])
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "icon",
+            "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+            "offsetTop": "sm",
+            "size": "xl"
+          },
+          {
+            "type": "text",
+            "text": "確診人數：{}".format(covid19title()[1])
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "icon",
+            "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+            "offsetTop": "sm",
+            "size": "xl"
+          },
+          {
+            "type": "text",
+            "text": "新增死亡人數：{}".format(covid19title()[2])
+          }
+        ]
+      }
+    ],
+    "height": "130px",
+    "offsetBottom": "md"
+  },
+  "styles": {
+    "body": {
+      "backgroundColor": "#A4D3EE"
+    }
+  }
+}
+
+influenza_json = {
+  "type": "bubble",
+  "size": "giga",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "流行性感冒趨勢圖",
+        "size": "xl",
+        "weight": "bold"
+      }
+    ],
+    "spacing": "none",
+    "borderWidth": "none",
+    "paddingAll": "md",
+    "paddingTop": "lg",
+    "paddingStart": "lg",
+    "paddingEnd": "md"
+  },
+  "hero": {
+    "type": "image",
+    "url": "https://img.onl/jQt3oE",
+    "size": "full",
+    "aspectMode": "fit",
+    "aspectRatio": "18:11"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "什麼是流行性感冒：",
+        "weight": "bold",
+        "style": "italic",
+        "decoration": "underline",
+        "color": "#104E8B",
+        "size": "lg"
+      },
+      {
+        "type": "text",
+        "text": " ",
+        "size": "5px"
+      },
+      {
+        "type": "text",
+        "text": "國人常常混肴流行性感冒與一般感冒，雖然症狀雷同，但是傳染力更病情的嚴重程度並不是同一個等級。如果你有喉嚨痛、肌肉酸痛、身體乏力的症狀，千萬不要諱疾忌醫，給醫生專業診斷，保護自己也能守護周遭的親朋好友。",
+        "wrap": True
+      },
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "text",
+            "text": "流行性感冒推薦商品：",
+            "color": "#104E8B",
+            "size": "lg",
+            "weight": "bold",
+            "style": "italic",
+            "decoration": "underline",
+            "margin": "none",
+            "position": "relative",
+            "offsetEnd": "none",
+            "flex": 0
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/social-media-1-filled-outline-77-background/468/Layer4-512.png",
+            "margin": "md",
+            "size": "3xl",
+            "offsetTop": "2px"
+          }
+        ],
+        "margin": "md"
+      },
+      {
+        "type": "text",
+        "text": " ",
+        "size": "5px"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "漂白水",
+              "text": "@漂白水"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4F94CD",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          },
+          {
+            "type": "text",
+            "text": " ",
+            "flex": 1
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "乾洗手",
+              "text": "@乾洗手"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4F94CD",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          }
+        ],
+        "cornerRadius": "none",
+        "borderWidth": "bold",
+        "offsetTop": "sm",
+        "paddingAll": "none",
+        "spacing": "none"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "肥皂",
+              "text": "@肥皂"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4F94CD",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          },
+          {
+            "type": "text",
+            "text": " ",
+            "flex": 1
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "不織布口罩",
+              "text": "@不織布口罩"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4F94CD",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          }
+        ],
+        "cornerRadius": "none",
+        "borderWidth": "bold",
+        "offsetTop": "sm",
+        "paddingAll": "none"
+      }
+    ]
+  },
+  "styles": {
+    "header": {
+      "backgroundColor": "#A4D3EE"
+    },
+    "hero": {
+      "backgroundColor": "#A4D3EE"
+    },
+    "body": {
+      "backgroundColor": "#A4D3EE"
+    },
+    "footer": {
+      "backgroundColor": "#FFE4B5"
+    }
+  }
+}
+
+### 腸病毒
+Enterovirus_json = {
+  "type": "bubble",
+  "size": "giga",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "腸病毒趨勢圖",
+        "size": "xl",
+        "weight": "bold"
+      }
+    ],
+    "spacing": "none",
+    "borderWidth": "none",
+    "paddingAll": "md",
+    "paddingTop": "lg",
+    "paddingStart": "lg",
+    "paddingEnd": "md"
+  },
+  "hero": {
+    "type": "image",
+    "url": "https://img.onl/bUt2N",
+    "size": "full",
+    "aspectMode": "fit",
+    "aspectRatio": "18:11"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "什麼是腸病毒：",
+        "weight": "bold",
+        "style": "italic",
+        "decoration": "underline",
+        "color": "#104E8B",
+        "size": "lg"
+      },
+      {
+        "type": "text",
+        "text": " ",
+        "size": "5px"
+      },
+      {
+        "type": "text",
+        "text": "腸病毒雖好發在小朋友身上，但是大人也不得輕忽，病毒種類繁多，對身體造成的健康影響不容小覷。最好的防範就是落實個人衛生保健，勤洗手、不要隨處觸碰眼、口、鼻，這樣才能有效遏止唷！",
+        "wrap": True
+      },
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "text",
+            "text": "腸病毒推薦商品：",
+            "color": "#104E8B",
+            "size": "lg",
+            "weight": "bold",
+            "style": "italic",
+            "decoration": "underline",
+            "margin": "none",
+            "position": "relative",
+            "offsetEnd": "none",
+            "flex": 0
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/social-media-1-filled-outline-77-background/468/Layer4-512.png",
+            "margin": "md",
+            "size": "3xl",
+            "offsetTop": "2px"
+          }
+        ],
+        "margin": "md"
+      },
+      {
+        "type": "text",
+        "text": " ",
+        "size": "5px"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "肥皂",
+              "text": "@肥皂"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4F94CD",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          },
+          {
+            "type": "text",
+            "text": " ",
+            "flex": 1
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "酒精",
+              "text": "@酒精"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4F94CD",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          }
+        ],
+        "cornerRadius": "none",
+        "borderWidth": "bold",
+        "offsetTop": "sm",
+        "paddingAll": "none",
+        "spacing": "none"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "漂白水",
+              "text": "@漂白水"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4F94CD",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          },
+          {
+            "type": "text",
+            "text": " ",
+            "flex": 1
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "不織布口罩",
+              "text": "@不織布口罩"
+            },
+            "style": "primary",
+            "margin": "none",
+            "color": "#4F94CD",
+            "position": "relative",
+            "gravity": "center",
+            "flex": 8
+          }
+        ],
+        "cornerRadius": "none",
+        "borderWidth": "bold",
+        "offsetTop": "sm",
+        "paddingAll": "none"
+      }
+    ]
+  },
+  "styles": {
+    "header": {
+      "backgroundColor": "#A4D3EE"
+    },
+    "hero": {
+      "backgroundColor": "#A4D3EE"
+    },
+    "body": {
+      "backgroundColor": "#A4D3EE"
+    },
+    "footer": {
+      "backgroundColor": "#FFE4B5"
+    }
+  }
+}
+
+### 小百科
+Encyclopedia_json = {
+  "type": "bubble",
+  "size": "kilo",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "text",
+            "text": "小百科",
+            "weight": "bold",
+            "size": "xl",
+            "flex": 0,
+            "offsetStart": "none",
+            "margin": "70px",
+            "offsetBottom": "none",
+            "gravity": "center"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn2.iconfinder.com/data/icons/education-and-knowledge-4-1/128/173-128.png",
+            "size": "3xl",
+            "offsetStart": "md",
+            "offsetTop": "sm"
+          }
+        ]
+      }
+    ],
+    "margin": "none",
+    "spacing": "none",
+    "paddingTop": "md",
+    "paddingBottom": "sm"
+  },
+  "body": {
     "type": "box",
     "layout": "vertical",
     "spacing": "sm",
     "contents": [
       {
         "type": "button",
-        "height": "sm",
         "action": {
           "type": "uri",
           "label": "空氣品質",
           "uri": "https://github.com/Liu-Pei-Hsuan/Team3/blob/main/Yi/%E5%B0%88%E9%A1%8C%E6%96%87%E7%8D%BB/%E7%A9%BA%E6%B0%A3%E5%93%81%E8%B3%AA.pdf"
         },
-        "margin": "none",
         "flex": 0,
-        "style": "secondary"
+        "style": "secondary",
+        "color": "#66CDAA"
+      },
+      {
+        "type": "separator",
+        "margin": "md"
       },
       {
         "type": "button",
         "style": "secondary",
-        "height": "sm",
         "action": {
           "type": "uri",
           "label": "流行疾病",
           "uri": "https://github.com/Liu-Pei-Hsuan/Team3/blob/main/Yi/%E5%B0%88%E9%A1%8C%E6%96%87%E7%8D%BB/%E6%B5%81%E8%A1%8C%E7%96%BE%E7%97%85.pdf"
-        }
+        },
+        "color": "#7AC5CD"
       }
     ],
     "flex": 0
+  },
+  "styles": {
+    "header": {
+      "backgroundColor": "#FFE4B5"
+    },
+    "body": {
+      "backgroundColor": "#FFF8DC"
+    }
   }
 }
 
-def station(disMinName, disMinDistance):
-    station = {
-        "type": "bubble",
-        "body": {
-            "type": "box", "layout": "vertical",
+disease_json = {
+  "type": "bubble",
+  "size": "kilo",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "margin": "md",
         "contents": [
-            {
-                "type": "text",
-                "text": "距離{}最近，距離 {} 公里".format(disMinName, disMinDistance)
-            }
+          {
+            "type": "text",
+            "text": "請選擇您最關心的疾病",
+            "size": "lg",
+            "flex": 0,
+            "weight": "bold"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn0.iconfinder.com/data/icons/coronavirus-33/512/cough-virus-flu-sick-coronavirus-512.png",
+            "size": "3xl",
+            "margin": "none",
+            "offsetTop": "xs",
+            "offsetStart": "md"
+          }
         ]
-        },
-        "styles": {
-            "body": {
-                "backgroundColor": "#FFF8DC"
+      }
+    ]
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "button",
+        "style": "link",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "COVID-19",
+          "text": "COVID-19"
         }
+      },
+      {
+        "type": "button",
+        "style": "link",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "流行性感冒",
+          "text": "流行性感冒"
         }
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "腸病毒",
+          "text": "腸病毒"
+        }
+      }
+    ]
+  },
+  "styles": {
+    "header": {
+      "backgroundColor": "#7FA5F8"
+    },
+    "hero": {
+      "backgroundColor": "#FFE4B5"
+    },
+    "body": {
+      "backgroundColor": "#E2EBFD"
+    },
+    "footer": {
+      "backgroundColor": "#FFF8DC"
     }
-    return station
+  }
+}
+
+angel = {
+  "type": "bubble",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "哈囉大家好！",
+        "weight": "bold",
+        "size": "md",
+        "wrap": True
+      },
+      {
+        "type": "text",
+        "text": "我是奕璋，綽號是火星仙子",
+        "weight": "bold",
+        "size": "md",
+        "wrap": True
+      },
+      {
+        "type": "image",
+        "url": "https://upload.wikimedia.org/wikipedia/zh/thumb/2/2f/SailorMoon_mars.jpg/220px-SailorMoon_mars.jpg",
+        "margin": "md",
+        "size": "full"
+      }
+    ]
+  }
+}
+
 
 
 if __name__ == "__main__":
     app.debug = True
     app.run()
-    
-    
