@@ -19,7 +19,7 @@ app = Flask(__name__, static_url_path='/static')
 UPLOAD_FOLDER = 'static'
 ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
-ngrok = "https://0352-111-249-3-147.ngrok.io/"
+ngrok = " https://81aa-118-167-107-13.ngrok.io/"
 
 
 config = configparser.ConfigParser()
@@ -1313,7 +1313,7 @@ def food():
     import random
     food = ["麥當勞","大四喜","素食","迷豆子","711關東煮","雙贏涼麵","早到晚到","排骨酥麵","八方雲集","孫東寶"]
     good = random.choice(food)
-    return (f'今天從' +str(len(food)) + '家精選店裡面選擇了' + good + '慢慢享用' )
+    return (f'從' +str(len(food)) + '家精選店裡面選擇\n== >' + good + '< ==慢慢享用' )
 
 def covid19title():
     import requests
