@@ -28,7 +28,7 @@ body = {
                 },
                 "action":{
                     "type": "message",
-                    "text":"@請回傳您的位置"
+                    "text":"@各區天氣預報"
                 }
             },
             {
@@ -69,7 +69,6 @@ body = {
             }
         ]
 }
-
 
 
 headers = {"Authorization":"Bearer UBpmysfAVIzw2uqQgj5NvMW314kcbhqxYKbVm430ZiTJnZEj4cdeZUapCUlAn9f49B2Qi+LMzd+hw4xVE9Nz2CKqo24Py4HwQb8jj5K4ob/SNx7seCr3NkpOGm/ILQYzzk2pf+ccv12JeUAr9s+gKAdB04t89/1O/w1cDnyilFU=",

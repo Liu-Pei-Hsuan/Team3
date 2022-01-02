@@ -44,14 +44,21 @@ for j, i in enumerate(df["name"]):
     string = i.split("】")[0]
     split_strings = string.split()
     split_strings.insert(len(split_strings), "】")
-    split_strings.insert(len(split_strings) + 1, " 價格：")
-    split_strings.insert(len(split_strings) + 2, "{}".format(df.price[j]))
-    split_strings.insert(len(split_strings) + 3, "元")
+    # split_strings.insert(len(split_strings) + 1, " 價格：")
+    split_strings.insert(len(split_strings) + 1, "{}".format(df.price[j]))
+    split_strings.insert(len(split_strings) + 2, "元")
     final_string = ''.join(split_strings)
+    
     if "│" in final_string:
         change = list(final_string)
         change[5:10] = ""
         final_string = "".join(change)
+        
+    elif "’" in final_string:
+        final_string = final_string.replace("Dr.Bronner’s", "")
+        
+    elif len(final_string) >= 20:
+        print(final_string)
     product_name.append(final_string)
     
 df["product_name"] = product_name

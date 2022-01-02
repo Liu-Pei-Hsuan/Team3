@@ -1,0 +1,571 @@
+{
+  "type": "bubble",
+  "size": "giga",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          },
+          {
+            "type": "icon",
+            "url": "https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/announcement_message_megaphone_speech_advertisement_communication_announce-512.png",
+            "size": "xxl"
+          }
+        ]
+      },
+      {
+        "type": "separator",
+        "margin": "lg",
+        "color": "#A4D3EE"
+      },
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "icon",
+            "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+            "offsetTop": "5px",
+            "size": "xxl"
+          },
+          {
+            "type": "text",
+            "text": " ",
+            "contents": [
+              {
+                "type": "span",
+                "text": "桃園市共新增 "
+              },
+              {
+                "type": "span",
+                "text": "0 ",
+                "weight": "bold"
+              },
+              {
+                "type": "span",
+                "text": "例"
+              }
+            ],
+            "size": "xl",
+            "color": "#CD6839"
+          }
+        ],
+        "offsetStart": "60px"
+      },
+      {
+        "type": "separator",
+        "margin": "md",
+        "color": "#528B8B"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "contents": [
+              {
+                "type": "icon",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+                "offsetTop": "sm",
+                "size": "xl"
+              },
+              {
+                "type": "text",
+                "text": " ",
+                "contents": [
+                  {
+                    "type": "span",
+                    "text": "中壢區共新增 "
+                  },
+                  {
+                    "type": "span",
+                    "text": "0 ",
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "span",
+                    "text": "例"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "contents": [
+              {
+                "type": "icon",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+                "offsetTop": "sm",
+                "size": "xl"
+              },
+              {
+                "type": "text",
+                "text": " ",
+                "contents": [
+                  {
+                    "type": "span",
+                    "text": "平鎮區共新增 "
+                  },
+                  {
+                    "type": "span",
+                    "text": "0 ",
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "span",
+                    "text": "例"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "contents": [
+              {
+                "type": "icon",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+                "offsetTop": "sm",
+                "size": "xl"
+              },
+              {
+                "type": "text",
+                "text": " ",
+                "contents": [
+                  {
+                    "type": "span",
+                    "text": "龍潭區共新增 "
+                  },
+                  {
+                    "type": "span",
+                    "text": "0 ",
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "span",
+                    "text": "例"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "contents": [
+              {
+                "type": "icon",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+                "offsetTop": "sm",
+                "size": "xl"
+              },
+              {
+                "type": "text",
+                "text": " ",
+                "contents": [
+                  {
+                    "type": "span",
+                    "text": "楊梅區共新增 "
+                  },
+                  {
+                    "type": "span",
+                    "text": "0 ",
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "span",
+                    "text": "例"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "contents": [
+              {
+                "type": "icon",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+                "offsetTop": "sm",
+                "size": "xl"
+              },
+              {
+                "type": "text",
+                "text": " ",
+                "contents": [
+                  {
+                    "type": "span",
+                    "text": "新屋區共新增 "
+                  },
+                  {
+                    "type": "span",
+                    "text": "0 ",
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "span",
+                    "text": "例"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "contents": [
+              {
+                "type": "icon",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+                "offsetTop": "sm",
+                "size": "xl"
+              },
+              {
+                "type": "text",
+                "text": " ",
+                "contents": [
+                  {
+                    "type": "span",
+                    "text": "觀音區共新增 "
+                  },
+                  {
+                    "type": "span",
+                    "text": "0 ",
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "span",
+                    "text": "例"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "contents": [
+              {
+                "type": "icon",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+                "offsetTop": "sm",
+                "size": "xl"
+              },
+              {
+                "type": "text",
+                "text": " ",
+                "contents": [
+                  {
+                    "type": "span",
+                    "text": "桃園區共新增 "
+                  },
+                  {
+                    "type": "span",
+                    "text": "0 ",
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "span",
+                    "text": "例"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "contents": [
+              {
+                "type": "icon",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+                "offsetTop": "sm",
+                "size": "xl"
+              },
+              {
+                "type": "text",
+                "text": " ",
+                "contents": [
+                  {
+                    "type": "span",
+                    "text": "龜山區共新增 "
+                  },
+                  {
+                    "type": "span",
+                    "text": "0 ",
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "span",
+                    "text": "例"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "contents": [
+              {
+                "type": "icon",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+                "offsetTop": "sm",
+                "size": "xl"
+              },
+              {
+                "type": "text",
+                "text": " ",
+                "contents": [
+                  {
+                    "type": "span",
+                    "text": "八德區共新增 "
+                  },
+                  {
+                    "type": "span",
+                    "text": "0 ",
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "span",
+                    "text": "例"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "contents": [
+              {
+                "type": "icon",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+                "offsetTop": "sm",
+                "size": "xl"
+              },
+              {
+                "type": "text",
+                "text": " ",
+                "contents": [
+                  {
+                    "type": "span",
+                    "text": "大溪區共新增 "
+                  },
+                  {
+                    "type": "span",
+                    "text": "0 ",
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "span",
+                    "text": "例"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "contents": [
+              {
+                "type": "icon",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+                "offsetTop": "sm",
+                "size": "xl"
+              },
+              {
+                "type": "text",
+                "text": " ",
+                "contents": [
+                  {
+                    "type": "span",
+                    "text": "復興區共新增 "
+                  },
+                  {
+                    "type": "span",
+                    "text": "0 ",
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "span",
+                    "text": "例"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "contents": [
+              {
+                "type": "icon",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+                "offsetTop": "sm",
+                "size": "xl"
+              },
+              {
+                "type": "text",
+                "text": " ",
+                "contents": [
+                  {
+                    "type": "span",
+                    "text": "大園區共新增 "
+                  },
+                  {
+                    "type": "span",
+                    "text": "0 ",
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "span",
+                    "text": "例"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "contents": [
+              {
+                "type": "icon",
+                "url": "https://stickershop.line-scdn.net/sticonshop/v1/sticon/5ac21ae3040ab15980c9b440/android/136.png?v=1",
+                "offsetTop": "sm",
+                "size": "xl"
+              },
+              {
+                "type": "text",
+                "text": " ",
+                "contents": [
+                  {
+                    "type": "span",
+                    "text": "蘆竹區共新增 "
+                  },
+                  {
+                    "type": "span",
+                    "text": "0 ",
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "span",
+                    "text": "例"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "offsetBottom": "md"
+  },
+  "styles": {
+    "body": {
+      "backgroundColor": "#A4D3EE"
+    }
+  }
+}

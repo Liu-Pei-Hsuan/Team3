@@ -13,7 +13,7 @@ for searchPrd in searchPrd_list:
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'}
     res = requests.get(url, headers=headers)
     soup = BeautifulSoup(res.text, 'lxml')
-    print(f'=====  Search satr {searchPrd}  =====')
+    # print(f'=====  Search satr {searchPrd}  =====')
     for prd in soup.select('.goodsItemLi'):
         prdClass = str(searchPrd)
         prdName = prd.select_one('.prdName').text.strip()
@@ -22,12 +22,12 @@ for searchPrd in searchPrd_list:
         prdUrl = 'https://m.momoshop.com.tw/' + prd.select_one('a')['href']
         prd2tuple = [prdClass, prdName, prdPrice, prdImg, prdUrl]
         prdData.append(prd2tuple)
-        print(f'類別:{searchPrd}')
-        print(prdName)
-        print(prdPrice)
-        print(prdImg)
-        print(prdUrl)
-        print('-' * 100)
+        # print(f'類別:{searchPrd}')
+        # print(prdName)
+        # print(prdPrice)
+        # print(prdImg)
+        # print(prdUrl)
+        # print('-' * 100)
     time.sleep(2)
 prdData.pop(0)
 
@@ -57,23 +57,31 @@ for j, i in enumerate(df["name"]):
     split_strings.insert(len(split_strings) + 2, "元")
     final_string = ''.join(split_strings)
     
-    # if "│" in final_string:
-    #     change = list(final_string)
-    #     change[5:10] = ""
-    #     final_string = "".join(change)
+    if "│" in final_string:
+        change = list(final_string)
+        change[5:10] = ""
+        final_string = "".join(change)
         
-    # elif "’" in final_string:
-    #     final_string = final_string.replace("Dr.Bronner’s", "")
+    elif "’" in final_string:
+        final_string = final_string.replace("Dr.Bronner’s", "")
+        
+    elif "Electrolux" in final_string:
+        final_string = final_string.replace("Electrolux", "")
+        
+    elif "澳洲AustralianBotanicalSoap" in final_string:
+        final_string = final_string.replace("澳洲AustralianBotanicalSoap", "澳洲植物精油香皂")
+        
+    elif "印度MEDIMIX國際外銷版" in final_string:
+        final_string = final_string.replace("印度MEDIMIX國際外銷版", "印度MEDIMIX")
 
     product_name.append(final_string)
   
 df["product_name"] = product_name
 
 
-
 from sqlalchemy import create_engine
 
-engine = create_engine("mysql+pymysql://{}:{}@{}/{}?charset={}".format('hsuan', 'hsuan', 'mqtt2.tibame.cloud:3306', 'prd','utf8mb4'))
+engine = create_engine("mysql+pymysql://{}:{}@{}/{}?charset={}".format('hsuan', 'hsuan', 'airiot.tibame.cloud:3306', 'products','utf8mb4'))
 con = engine.connect()#建立連線
 df.to_sql(name='product', con=con, if_exists='replace', index=False)
 con.close()
